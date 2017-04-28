@@ -11,7 +11,11 @@ react-native run-android
 
 Using Atom with ESLint
 npm install eslint --save-dev
+
 npm install eslint-plugin-react
+
 npm install eslint-plugin-jsx-a11y
+
 npm install eslint-plugin-import
+
 npm install eslint-config-airbnb
