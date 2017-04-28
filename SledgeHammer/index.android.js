@@ -11,7 +11,7 @@ import {
 
 import MainActivity from './mainactivity';
 
-export default class SledgeHammer extends Component {
+export default class Sledgehammer extends Component {
   render() {
     return (
       <MainActivity />
@@ -19,4 +19,4 @@ export default class SledgeHammer extends Component {
   }
 }
 
-AppRegistry.registerComponent('SledgeHammer', () => SledgeHammer);
+AppRegistry.registerComponent('Sledgehammer', () => Sledgehammer);
