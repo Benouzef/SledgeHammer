@@ -19,3 +19,6 @@ npm install eslint-plugin-jsx-a11y
 npm install eslint-plugin-import
 
 npm install eslint-config-airbnb
+
+Using react-native-navigation
+npm install react-native-navigation
