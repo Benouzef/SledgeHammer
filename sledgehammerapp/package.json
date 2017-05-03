@@ -1,0 +1,23 @@
+{
+  "name": "sledgehammerapp",
+  "version": "0.0.0",
+  "description": "Hello Expo!",
+  "author": null,
+  "main": "main.js",
+  "scripts": {
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/ex-navigation": "~2.10.0",
+    "@expo/samples": "~1.0.3",
+    "expo": "16.0.0",
+    "react": "16.0.0-alpha.6",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-16.0.0.tar.gz"
+  },
+  "devDependencies": {
+    "jest-expo": "0.4.0"
+  }
+}
