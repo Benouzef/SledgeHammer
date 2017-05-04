@@ -14,7 +14,7 @@ export default class AboutScreen extends React.Component {
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
 
-        <Text>About Screen</Text>
+        <Text>About Indeptive.com</Text>
 
       </ScrollView>
     );

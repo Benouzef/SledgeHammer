@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput } from 'react-native';
 
 export default class ProfileScreen extends React.Component {
   static route = {
@@ -15,7 +15,7 @@ export default class ProfileScreen extends React.Component {
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
 
         <Text>Profile Screen</Text>
-
+        <TextInput style={{color: 'blue'}} placeholder={'Nom de ma structure'}/>
       </ScrollView>
     );
   }

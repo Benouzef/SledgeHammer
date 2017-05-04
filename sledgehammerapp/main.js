@@ -23,6 +23,8 @@ class AppContainer extends React.Component {
         fonts: [
           FontAwesome.font,
           { 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf') },
+          {'Rubik-Regular': require('./node_modules/@shoutem/ui/fonts/Rubik-Regular.ttf') },
+          {'rubicon-icon-font': require('./node_modules/@shoutem/ui/fonts/rubicon-icon-font.ttf') },
         ],
       });
     } catch (e) {
