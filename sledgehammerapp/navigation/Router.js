@@ -10,6 +10,7 @@ import CustomersScreen from '../screens/CustomersScreen';
 import MissionDetailScreen from '../screens/MissionDetailScreen';
 import MissionsScreen from '../screens/MissionsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SignatureScreen from '../screens/SignatureScreen';
 import RootNavigation from './RootNavigation';
 
 export default createRouter(() => ({
@@ -20,6 +21,7 @@ export default createRouter(() => ({
   missiondetail: () => MissionDetailScreen,
   customers: () => CustomersScreen,
   profile: () => ProfileScreen,
+  signature: () => SignatureScreen,
   about: () => AboutScreen,
   rootNavigation: () => RootNavigation,
 

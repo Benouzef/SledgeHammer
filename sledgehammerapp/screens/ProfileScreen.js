@@ -1,13 +1,23 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View, PixelRatio } from 'react-native';
 import FloatLabelTextInput from '../components/FloatLabelTextInput';
-import {  Divider, Caption } from '@shoutem/ui';
+import { Icon, TouchableOpacity, Divider, Caption } from '@shoutem/ui';
+import { signInWithGoogleAsync, setApiToken, listFiles } from '../utilities/googleSignin';
 
 export default class ProfileScreen extends React.Component {
   static route = {
     navigationBar: {
       title: 'Profil',
     },
+  };
+
+  _goToScreen = name => () => {
+    let token = signInWithGoogleAsync();
+    setApiToken(token);
+    getUserInfo(token);
+    listFiles();
+
+    //this.props.navigator.push(name);
   };
 
   render() {
@@ -82,6 +92,14 @@ export default class ProfileScreen extends React.Component {
           placeholder={'BIC'}
           value={'AGRIFRPP882'}
         />
+        <Divider styleName="section-header">
+          <Caption>MA SIGNATURE</Caption>
+        </Divider>
+        <View>
+          <TouchableOpacity styleName="flexible" onPress={this._goToScreen('signature')}>
+              <Icon name='settings'/>
+          </TouchableOpacity>
+        </View>
         <Divider styleName="section-header">
         </Divider>
       </ScrollView>
