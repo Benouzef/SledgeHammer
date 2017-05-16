@@ -1,23 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { WebView } from 'react-native';
 
 export default class AboutScreen extends React.Component {
   render() {
     return (
-      <ScrollView
-        style={styles.container}
-        >
-
-        <Text>About Indeptive.com</Text>
-
-      </ScrollView>
+        <WebView
+          source={{uri: 'http://www.indeptive.com'}}
+        />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-  },
-});
