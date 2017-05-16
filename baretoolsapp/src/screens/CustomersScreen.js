@@ -2,12 +2,6 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, Button } from 'react-native';
 
 export default class CustomersScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      title: 'Customers',
-    },
-  };
-
   render() {
     return (
       <ScrollView
