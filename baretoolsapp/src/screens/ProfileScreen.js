@@ -1,8 +1,23 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, Button } from 'react-native';
 import { Form, Item, Label, Input } from 'native-base';
+import { signInWithGoogleAsync } from '../utilities/googleSignin';
+import GoogleSignIn from 'react-native-google-sign-in';
 
 export default class ProfileScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  async componentDidMount() {
+    await signInWithGoogleAsync();
+
+    const user = await GoogleSignIn.signInPromise();
+    console.log(user);
+    console.log(user.accessToken);
+  }
+
+
   render() {
     return (
       <ScrollView
@@ -74,12 +89,11 @@ export default class ProfileScreen extends React.Component {
           </Item>
         </Form>
         <Text>SIGNATURE STAMP</Text>
-
-
         <Button
           onPress={() => this.props.navigation.navigate('SignatureStamp')}
           title="Go to Signature stamp details"
         />
+        <Text></Text>
       </ScrollView>
     );
   }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "484760334438",
+    "project_id": "bare-tools"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484760334438:android:b568cf0a94fbb4c6",
+        "android_client_info": {
+          "package_name": "com.baretoolsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484760334438-h1av8l1pas6flr6anj5qpl6u3j511s62.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "484760334438-tog9ri0qmj4o2li7jdall0q1u3m0g5bv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baretoolsapp",
+            "certificate_hash": "a2320bc3882a4634275209a044c825b03f579db6"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArfXpOpXbubB-7X3wO0CK2YRHpJGiAH8M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
