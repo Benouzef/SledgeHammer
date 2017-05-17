@@ -124,20 +124,17 @@ export default class ProfileScreen extends React.Component {
           </Item>
         </Form>
         <Text>SIGNATURE STAMP</Text>
-
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('SignatureStamp')}>
         {urlForSignature ? (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignatureStamp')}>
             <Image
               style={{height: 200, width:200}}
               source={{uri: `${urlForSignature}`}}
               />
-          </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignatureStamp')}>
             <Image style={{height: 200, width:200}}
               source={require('../assets/images/signature-icon.png')} />
-          </TouchableOpacity>
         )}
+        </TouchableOpacity>
       </ScrollView>
     );
   }
