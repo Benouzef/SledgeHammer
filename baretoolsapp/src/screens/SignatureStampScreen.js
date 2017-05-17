@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, WebView, StyleSheet } from 'react-native';
+import { takeSnapshot } from "react-native-view-shot";
 
 export default class SignatureStampScreen extends React.Component {
   static propTypes = {
@@ -24,10 +25,19 @@ export default class SignatureStampScreen extends React.Component {
   }
 
   _onNavigationChange = (args) => {
+    var returnedHash = unescape(args.url);
     console.log(unescape(args.url));
 
-    // save screenshot to drive
-
+    if(returnedHash.includes('message')) {
+      // save screenshot to drive
+      takeSnapshot(this.refs['full'],
+        { result: 'base64', format: 'png' }
+      )
+      .then(
+        uri => console.log("Image saved to", uri),
+        error => console.error("Oops, snapshot failed", error)
+      );
+    }
   };
 
   _renderError = (args) => {
