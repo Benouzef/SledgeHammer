@@ -1,38 +1,102 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Image, Text, Button } from 'react-native';
+import { ScrollView, StyleSheet, Image, Text, Button, View, TouchableOpacity } from 'react-native';
 import { Form, Item, Label, Input } from 'native-base';
 import { signInWithGoogleAsync, getSignatureStamp, setApiToken } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
+
+let user = null;
+let signatureStampFile = null;
+let urlForSignature = null;
+
+function DefaultSignature(props) {
+  console.log(props);
+  return (
+    <TouchableOpacity>// onPress={() => this.props.navigation.navigate('SignatureStamp')}>
+      <Image style={{height: 200, width:200}}
+        source={require('../assets/images/signature-icon.png')} />
+    </TouchableOpacity>
+  );
+}
+
+function FoundSignature(props) {
+  console.log(props);
+  return (
+    <TouchableOpacity>// onPress={() => this.props.navigation.navigate('SignatureStamp')}>
+      <Image
+        style={{height: 200, width:200}}
+        source={{uri: `${props.urlForSignature}`}}
+        />
+    </TouchableOpacity>
+  );
+}
+
+function Signature(props) {
+  console.log(props);
+  if (props.urlForSignature) {
+    return <FoundSignature urlForSignature={props.urlForSignature} />;
+  }
+  else {
+    return <DefaultSignature />;
+  }
+}
+
+
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  getInitialState() {
+    return {
+      isLoading: true
+    };
+  }
+
+  componentWillMount() {
+    this.setState({
+        isLoading: true
+      });
+  }
+
   async componentDidMount() {
-    await GoogleSignIn.signOut();
     await signInWithGoogleAsync();
 
-    const user = await GoogleSignIn.signInPromise();
+    user = await GoogleSignIn.signInPromise();
+
     console.log(user);
     console.log(user.accessToken);
     setApiToken(user.accessToken);
-    getSignatureStamp();
 
+    signatureStampFile = await getSignatureStamp();
+    console.log(signatureStampFile);
+    if (signatureStampFile == null) {
+      urlForSignature = null;
+    } else {
+      console.log(signatureStampFile.thumbnailLink);
+      urlForSignature = signatureStampFile.thumbnailLink.replace('&export=download','');
+      this.props.urlForSignature = urlForSignature;
+      console.log(urlForSignature);
+    }
 
+    this.setState({
+        isLoading: false
+      });
   }
 
 
   render() {
+    if (this.state.isLoading) {
+      return <View><Text>Loading...</Text></View>;
+    }
+
     return (
-      <ScrollView
-        style={styles.container}
-        >
+      <ScrollView>
         <Text>PERSONAL INFORMATION</Text>
         <Form>
           <Item floatingLabel>
             <Label>Full Name</Label>
-            <Input />
+            <Input value={user.name}/>
           </Item>
           <Item floatingLabel>
             <Label>Email</Label>
@@ -94,15 +158,8 @@ export default class ProfileScreen extends React.Component {
           </Item>
         </Form>
         <Text>SIGNATURE STAMP</Text>
-        <Button
-          onPress={() => this.props.navigation.navigate('SignatureStamp')}
-          title="Go to Signature stamp details"
-        />
-        <Text></Text>
-        <Image
-          style={{width: 50, height: 50}}
-          source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
-        />
+        <Signature urlForSignature={urlForSignature}/>
+
       </ScrollView>
     );
   }

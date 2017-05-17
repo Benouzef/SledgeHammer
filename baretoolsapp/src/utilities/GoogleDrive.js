@@ -17,11 +17,17 @@ export async function getSignatureStamp() {
   console.log(indeptiveFolder);
 
   // 2 - Create com.indeptive folder if not found
-
+  if (indeptiveFolder == null) createDirectory('com.indeptive');
 
   // 3 - Get Signature Stamp if it exists
-  var signatureStampFile = await get(queryParamsForSignature(indeptiveFolder.id));
+  var signatureStampFile = await get(queryParamsForSignature(indeptiveFolder.id), 'files/webContentLink,files/id,files/thumbnailLink');
   console.log(signatureStampFile);
+
+  /*if (signatureStampFile == null) {
+    createDefaultSignature(indeptiveFolder.id);
+    signatureStampFile = await get(queryParamsForSignature(indeptiveFolder.id), 'files/webContentLink,files/id,files/thumbnailLink');
+    console.log(signatureStampFile);
+  }*/
 
   return signatureStampFile;
 }
@@ -36,9 +42,9 @@ function queryParamsForSignature(indeptiveFolderId) {
   return encodeURIComponent(q);
 }
 
-function get(qParams) {
+function get(qParams, withFields) {
   const options = configureGetOptions();
-  return fetch(`${url}/files?q=${qParams}`, options)
+  return fetch(`${url}/files?q=${qParams}${withFields ? `&fields=${withFields}` : ''}`, options)
     .then(parseAndHandleErrors)
     .then((body) => {
       if (body && body.files && body.files.length > 0) {
@@ -81,7 +87,58 @@ function configurePostOptions(bodyLength, isUpdate = false) {
   }
 }
 
-function createMultipartBody(body, isUpdate = false) {
+function createDirectory(directoryName) {
+  const metaData = {
+    name: directoryName,
+    mimeType: 'application/vnd.google-apps.folder',
+    parents: [ 'root' ]
+  }
+
+  const body = `\r\n--${boundaryString}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n`
+  + `${JSON.stringify(metaData)}\r\n`
+  + `--${boundaryString}--`
+  const options = configurePostOptions(0, false);
+  return fetch(`${url}/files`, {
+    ...options,
+    body,
+  })
+    .then(parseAndHandleErrors)
+}
+
+/*function createDefaultSignature(parentFolderId) {
+
+  const body = createMultipartBody(parentFolderId, content);
+  const options = configurePostOptions(body.length, false);
+  return fetch(`${uploadUrl}/files?uploadType=multipart`, {
+    ...options,
+    body,
+  })
+    .then(parseAndHandleErrors);
+}
+
+function createMultipartBody(parentFolderId, body) {
+  // https://developers.google.com/drive/v3/web/multipart-upload defines the structure
+  const metaData = {
+    name: 'SignatureStampForIndeptive.png',
+    description: 'Backup data for my app',
+    mimeType: 'image/png',
+    parents [
+      `${parentFolderId}`
+    ]
+  }
+
+  // request body
+  const multipartBody = `\r\n--${boundaryString}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n`
+  + `${JSON.stringify(metaData)}\r\n`
+  + `--${boundaryString}\r\nContent-Type: application/json\r\n\r\n`
+  + `${JSON.stringify(body)}\r\n`
+  + `--${boundaryString}--`
+
+  return multipartBody
+}*/
+
+
+/*function createMultipartBody(body, isUpdate = false) {
   // https://developers.google.com/drive/v3/web/multipart-upload defines the structure
   const metaData = {
     name: 'data.json',
@@ -110,7 +167,7 @@ export function uploadFile(content, existingFileId) {
     body,
   })
     .then(parseAndHandleErrors)
-}
+}*/
 
 export async function signInWithGoogleAsync() {
   const result = await GoogleSignIn.configure({
