@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, Button } from 'react-native';
+import { ScrollView, StyleSheet, Image, Text, Button } from 'react-native';
 import { Form, Item, Label, Input } from 'native-base';
-import { signInWithGoogleAsync } from '../utilities/googleSignin';
+import { signInWithGoogleAsync, getSignatureStamp, setApiToken } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
 
 export default class ProfileScreen extends React.Component {
@@ -10,11 +10,16 @@ export default class ProfileScreen extends React.Component {
   }
 
   async componentDidMount() {
+    await GoogleSignIn.signOut();
     await signInWithGoogleAsync();
 
     const user = await GoogleSignIn.signInPromise();
     console.log(user);
     console.log(user.accessToken);
+    setApiToken(user.accessToken);
+    getSignatureStamp();
+
+
   }
 
 
@@ -94,6 +99,10 @@ export default class ProfileScreen extends React.Component {
           title="Go to Signature stamp details"
         />
         <Text></Text>
+        <Image
+          style={{width: 50, height: 50}}
+          source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+        />
       </ScrollView>
     );
   }
