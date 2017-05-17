@@ -8,40 +8,6 @@ let user = null;
 let signatureStampFile = null;
 let urlForSignature = null;
 
-function DefaultSignature(props) {
-  console.log(props);
-  return (
-    <TouchableOpacity>// onPress={() => this.props.navigation.navigate('SignatureStamp')}>
-      <Image style={{height: 200, width:200}}
-        source={require('../assets/images/signature-icon.png')} />
-    </TouchableOpacity>
-  );
-}
-
-function FoundSignature(props) {
-  console.log(props);
-  return (
-    <TouchableOpacity>// onPress={() => this.props.navigation.navigate('SignatureStamp')}>
-      <Image
-        style={{height: 200, width:200}}
-        source={{uri: `${props.urlForSignature}`}}
-        />
-    </TouchableOpacity>
-  );
-}
-
-function Signature(props) {
-  console.log(props);
-  if (props.urlForSignature) {
-    return <FoundSignature urlForSignature={props.urlForSignature} />;
-  }
-  else {
-    return <DefaultSignature />;
-  }
-}
-
-
-
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -158,8 +124,20 @@ export default class ProfileScreen extends React.Component {
           </Item>
         </Form>
         <Text>SIGNATURE STAMP</Text>
-        <Signature urlForSignature={urlForSignature}/>
 
+        {urlForSignature ? (
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignatureStamp')}>
+            <Image
+              style={{height: 200, width:200}}
+              source={{uri: `${urlForSignature}`}}
+              />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignatureStamp')}>
+            <Image style={{height: 200, width:200}}
+              source={require('../assets/images/signature-icon.png')} />
+          </TouchableOpacity>
+        )}
       </ScrollView>
     );
   }
