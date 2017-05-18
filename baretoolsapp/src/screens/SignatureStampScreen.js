@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, WebView, StyleSheet } from 'react-native';
-import { takeSnapshot } from "react-native-view-shot";
+import { View, WebView, StyleSheet, Text } from 'react-native';
+import { takeSnapshot } from 'react-native-view-shot';
+import { signInWithGoogleAsync, setApiToken, uploadFile } from '../utilities/GoogleDrive';
+import { NavigationActions } from 'react-navigation';
+import GoogleSignIn from 'react-native-google-sign-in';
 
 export default class SignatureStampScreen extends React.Component {
   static propTypes = {
@@ -10,6 +13,13 @@ export default class SignatureStampScreen extends React.Component {
     penColor: React.PropTypes.string,
     dataURL: React.PropTypes.string,
   };
+
+  getInitialState() {
+    return {
+      isLoading: true,
+      snapshotNotDone: true
+    };
+  }
 
   static defaultProps = {
     onChange: () => {
@@ -24,21 +34,49 @@ export default class SignatureStampScreen extends React.Component {
     super(props);
   }
 
+  componentWillMount() {
+    this.setState({
+        isLoading: true,
+        snapshotNotDone: true
+      });
+  }
+
+  async componentDidMount() {
+    await signInWithGoogleAsync();
+
+    user = await GoogleSignIn.signInPromise();
+
+    console.log(user);
+    console.log(user.accessToken);
+    setApiToken(user.accessToken);
+
+    this.setState({
+        isLoading: false
+      });
+  }
+
   _onNavigationChange = (args) => {
     var returnedHash = unescape(args.url);
     console.log(unescape(args.url));
 
     if(returnedHash.includes('message')) {
+      setTimeout(() => {}, 1000);
       // save screenshot to drive
       takeSnapshot(this.refs['full'],
         { result: 'base64', format: 'png' }
       )
       .then(
-        uri => console.log("Image saved to", uri),
+        uri => this._uploadSignature(uri),
         error => console.error("Oops, snapshot failed", error)
       );
+
+      this.setState({
+        snapshotNotDone: false
+      });
     }
   };
+
+
 
   _renderError = (args) => {
     console.log(args);
@@ -48,8 +86,21 @@ export default class SignatureStampScreen extends React.Component {
 
   };
 
+  _uploadSignature = (data) => {
+    console.log(data);
+    uploadFile(data, this.props.navigation.state.params.signatureStampFileId, this.props.navigation.state.params.indeptiveFolderId);
+    const backAction = NavigationActions.back({
+      key: 'SignatureStamp'
+    });
+    this.props.navigation.dispatch(backAction);
+  };
+
   render() {
+    if (this.state.isLoading) {
+      return <View><Text>Loading...</Text></View>;
+    }
     return (
+
       <View ref='full' style={this.props.style} collapsable={false}>
         <WebView automaticallyAdjustContentInsets={false}
            onNavigationStateChange={this._onNavigationChange}

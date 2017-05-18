@@ -1,12 +1,14 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Image, Text, Button, View, TouchableOpacity } from 'react-native';
 import { Form, Item, Label, Input } from 'native-base';
-import { signInWithGoogleAsync, getSignatureStamp, setApiToken } from '../utilities/GoogleDrive';
+import { signInWithGoogleAsync, getSignatureStamp, setApiToken, getIndeptiveFolder } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
 
 let user = null;
 let signatureStampFile = null;
 let urlForSignature = null;
+let indeptiveFolderId = null;
+let signatureStampFileId = null;
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -34,11 +36,15 @@ export default class ProfileScreen extends React.Component {
     console.log(user.accessToken);
     setApiToken(user.accessToken);
 
-    signatureStampFile = await getSignatureStamp();
+    const indeptiveFolder = await getIndeptiveFolder();
+    indeptiveFolderId = indeptiveFolder.id;
+    signatureStampFile = await getSignatureStamp(indeptiveFolder);
     console.log(signatureStampFile);
     if (signatureStampFile == null) {
       urlForSignature = null;
+      signatureStampFileId = null
     } else {
+      signatureStampFileId = signatureStampFile.id;
       console.log(signatureStampFile.thumbnailLink);
       urlForSignature = signatureStampFile.thumbnailLink.replace('&export=download','');
       this.props.urlForSignature = urlForSignature;
@@ -124,7 +130,15 @@ export default class ProfileScreen extends React.Component {
           </Item>
         </Form>
         <Text>SIGNATURE STAMP</Text>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('SignatureStamp')}>
+        <TouchableOpacity
+          onPress={
+            () => this.props.navigation.navigate('SignatureStamp',
+              {
+                urlForSignature: `${urlForSignature}`,
+                signatureStampFileId: `${signatureStampFileId}`,
+                indeptiveFolderId: `${indeptiveFolderId}`
+              }
+            )}>
         {urlForSignature ? (
             <Image
               style={{height: 200, width:200}}

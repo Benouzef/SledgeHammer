@@ -11,14 +11,19 @@ export function setApiToken(token) {
   apiToken = token
 }
 
-export async function getSignatureStamp() {
-  // 1 - Get com.indeptive folder
-  var indeptiveFolder = await get(queryParamsForIndeptiveFolder());
-  console.log(indeptiveFolder);
+export async function getIndeptiveFolder() {
+  var folder = await get(queryParamsForIndeptiveFolder());
+  console.log(folder);
 
-  // 2 - Create com.indeptive folder if not found
-  if (indeptiveFolder == null) createDirectory('com.indeptive');
+  if (folder == null) {
+    createDirectory('com.indeptive');
+    folder = getIndeptiveFolder();
+  }
 
+  return folder;
+}
+
+export async function getSignatureStamp(indeptiveFolder) {
   // 3 - Get Signature Stamp if it exists
   var signatureStampFile = await get(queryParamsForSignature(indeptiveFolder.id), 'files/webContentLink,files/id,files/thumbnailLink');
   console.log(signatureStampFile);
@@ -37,7 +42,7 @@ function queryParamsForIndeptiveFolder() {
 }
 
 function queryParamsForSignature(indeptiveFolderId) {
-  var q = `mimeType contains 'image' and name='SignatureStampForIndeptive.png' and '${indeptiveFolderId}' in parents`;
+  var q = `mimeType contains 'image' and name='SignatureStampForIndeptive.png' and trashed=false and '${indeptiveFolderId}' in parents`;
   console.log(q);
   return encodeURIComponent(q);
 }
@@ -58,11 +63,14 @@ function get(qParams, withFields) {
 }
 
 function parseAndHandleErrors(response) {
+  console.log('parseAndHandleErrors');
   if (response.ok) {
+    console.log('parseAndHandleErrors : OK');
     return response.json()
   }
   return response.json()
     .then((error) => {
+      console.log('parseAndHandleErrors : KO');
       throw new Error(JSON.stringify(error))
     })
 }
@@ -138,36 +146,49 @@ function createMultipartBody(parentFolderId, body) {
 }*/
 
 
-/*function createMultipartBody(body, isUpdate = false) {
+function createMultipartBody(body, isUpdate = false, indeptiveFolderId = null) {
   // https://developers.google.com/drive/v3/web/multipart-upload defines the structure
   const metaData = {
-    name: 'data.json',
-    description: 'Backup data for my app',
-    mimeType: 'application/json',
+    name: 'SignatureStampForIndeptive.png',
+    description: 'Signature stamp used for timesheet',
+    mimeType: 'image/png',
   }
   // if it already exists, specifying parents again throws an error
-  if (!isUpdate) metaData.parents = ['appDataFolder']
+
+  if (!isUpdate) metaData.parents = [`${indeptiveFolderId}`];
 
   // request body
   const multipartBody = `\r\n--${boundaryString}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n`
   + `${JSON.stringify(metaData)}\r\n`
-  + `--${boundaryString}\r\nContent-Type: application/json\r\n\r\n`
-  + `${JSON.stringify(body)}\r\n`
-  + `--${boundaryString}--`
+  + `--${boundaryString}\r\nContent-Type: image/png\r\n`
+  + `Content-Transfer-Encoding: base64\r\n\r\n`
+  + `${body}\r\n`
+  + `--${boundaryString}--`;
 
-  return multipartBody
+  return multipartBody;
 }
 
 // uploads a file with its contents and its meta data (name, description, type, location)
-export function uploadFile(content, existingFileId) {
-  const body = createMultipartBody(content, !!existingFileId)
-  const options = configurePostOptions(body.length, !!existingFileId)
-  return fetch(`${uploadUrl}/files${existingFileId ? `/${existingFileId}` : ''}?uploadType=multipart`, {
+export function uploadFile(content, existingFileId, indeptiveFolderId) {
+  var isUpdate = true;
+  var fileIdToAppend = '/' + existingFileId;
+  if (existingFileId == 'null') {
+    isUpdate = false;
+    fileIdToAppend = '';
+  }
+
+  const body = createMultipartBody(content, isUpdate, indeptiveFolderId)
+  const options = configurePostOptions(body.length, isUpdate);
+
+  console.log(isUpdate);
+  console.log(fileIdToAppend);
+
+  return fetch(`${uploadUrl}/files${fileIdToAppend}?uploadType=multipart`, {
     ...options,
     body,
   })
-    .then(parseAndHandleErrors)
-}*/
+    .then(parseAndHandleErrors);
+}
 
 export async function signInWithGoogleAsync() {
   const result = await GoogleSignIn.configure({

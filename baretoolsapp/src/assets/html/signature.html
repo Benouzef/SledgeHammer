@@ -12,7 +12,7 @@
         }
 
         canvas.width = 340 ;
-        canvas.height = 350 ;
+        canvas.height = 400 ;
 
         context.fillStyle = "#fff";
         context.strokeStyle = "#444";
@@ -141,6 +141,10 @@
         document.getElementById("savebtn").style.display = "none";
         document.getElementById("cancelbtn").style.display = "none";
         var r = Math.random();
+        var canvas = document.getElementById("newSignature");
+        var data = canvas.toDataURL("image/png");
+        document.getElementById("saveSignature").src = data;
+        canvas.style.display = "none";
         window.location.hash = '&executeFunction<-jsError'+ '&' + '&arguments<-' + JSON.stringify({message: `${r}`}) + '&';
       }
 
@@ -152,6 +156,7 @@
     </script>
   </head>
 
+  <img id="saveSignature" />
   <div id="canvas">
     <canvas class="roundCorners" id="newSignature"
       style="position: relative; margin: 0; padding: 0; border: 1px solid #c4caac;">
