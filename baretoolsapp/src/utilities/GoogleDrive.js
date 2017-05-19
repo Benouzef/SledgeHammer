@@ -2,6 +2,7 @@ import GoogleSignIn from 'react-native-google-sign-in';
 
 const url = 'https://www.googleapis.com/drive/v3';
 const uploadUrl = 'https://www.googleapis.com/upload/drive/v3';
+const baseSpreadSheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets';
 const boundaryString = 'indeptive_com_bndry'; // can be anything unique, needed for multipart upload https://developers.google.com/drive/v3/web/multipart-upload
 
 let apiToken = null;
@@ -110,7 +111,25 @@ function createDirectory(directoryName) {
     ...options,
     body,
   })
-    .then(parseAndHandleErrors)
+  .then(parseAndHandleErrors);
+}
+
+export function createSpreadSheet(name) {
+  const options = configurePostOptions(0, false);
+  return fetch(`${baseSpreadSheetUrl}`, {
+    ...options
+  })
+  .then(parseAndHandleErrors)
+  .then((body) => {
+    if (body && body.spreadsheetId) {
+        console.log(body.spreadsheetId);
+        return body.spreadsheetId;
+    }
+    else {
+        return null;
+    }
+  }
+  );
 }
 
 /*function createDefaultSignature(parentFolderId) {
