@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import { signInWithGoogleAsync, setApiToken, createSpreadSheet } from '../utilities/GoogleDrive';
+import { signInWithGoogleAsync, setApiToken, createSpreadSheet, moveSpreadSheet, getIndeptiveFolder, enterDataInSpreadSheet } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
 
 export default class MissionDetailScreen extends React.Component {
@@ -8,10 +8,15 @@ export default class MissionDetailScreen extends React.Component {
   async componentDidMount() {
     await signInWithGoogleAsync();
 
-    user = await GoogleSignIn.signInPromise();
+    const user = await GoogleSignIn.signInPromise();
     setApiToken(user.accessToken);
 
-    await createSpreadSheet();
+    const folder = await getIndeptiveFolder();
+
+    const spreadsheetId = await createSpreadSheet();
+    await moveSpreadSheet(spreadsheetId, 'Mon timesheet de moi', folder.id);
+
+    await enterDataInSpreadSheet(spreadsheetId, 'Sheet1!C6', 'Coucou Benoit');
   }
 
   render() {

@@ -96,6 +96,15 @@ function configurePostOptions(bodyLength, isUpdate = false) {
   }
 }
 
+function configurePutOptions() {
+  const headers = new Headers()
+  headers.append('Authorization', `Bearer ${apiToken}`)
+  return {
+    method: 'PUT',
+    headers,
+  }
+}
+
 function createDirectory(directoryName) {
   const metaData = {
     name: directoryName,
@@ -114,7 +123,7 @@ function createDirectory(directoryName) {
   .then(parseAndHandleErrors);
 }
 
-export function createSpreadSheet(name) {
+export function createSpreadSheet() {
   const options = configurePostOptions(0, false);
   return fetch(`${baseSpreadSheetUrl}`, {
     ...options
@@ -132,38 +141,42 @@ export function createSpreadSheet(name) {
   );
 }
 
-/*function createDefaultSignature(parentFolderId) {
+export function enterDataInSpreadSheet(id, range, value) {
+  const options = configurePutOptions();
+  const metaData = {
+    range: range,
+    majorDimension: 'ROWS',
+    values: [[value]]
+  }
 
-  const body = createMultipartBody(parentFolderId, content);
-  const options = configurePostOptions(body.length, false);
-  return fetch(`${uploadUrl}/files?uploadType=multipart`, {
+  const body = `${JSON.stringify(metaData)}\r\n`
+
+  return fetch(`${baseSpreadSheetUrl}/${id}/values/${range}?valueInputOption=USER_ENTERED`, {
+    ...options,
+    body
+  })
+  .then(parseAndHandleErrors);
+}
+
+export function moveSpreadSheet(id, name, directoryId) {
+  console.log(directoryId);
+  console.log(`${directoryId}`);
+  const metaData = {
+    addParents: directoryId,
+    name: name
+  }
+
+  const body = `\r\n--${boundaryString}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n`
+  + `${JSON.stringify(metaData)}\r\n`
+  + `--${boundaryString}--`
+  const options = configurePostOptions(0, true);
+  console.log(body);
+  return fetch(`${url}/files/${id}?removeParents=root&addParents=${directoryId}`, {
     ...options,
     body,
   })
-    .then(parseAndHandleErrors);
+  .then(parseAndHandleErrors);
 }
-
-function createMultipartBody(parentFolderId, body) {
-  // https://developers.google.com/drive/v3/web/multipart-upload defines the structure
-  const metaData = {
-    name: 'SignatureStampForIndeptive.png',
-    description: 'Backup data for my app',
-    mimeType: 'image/png',
-    parents [
-      `${parentFolderId}`
-    ]
-  }
-
-  // request body
-  const multipartBody = `\r\n--${boundaryString}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n`
-  + `${JSON.stringify(metaData)}\r\n`
-  + `--${boundaryString}\r\nContent-Type: application/json\r\n\r\n`
-  + `${JSON.stringify(body)}\r\n`
-  + `--${boundaryString}--`
-
-  return multipartBody
-}*/
-
 
 function createMultipartBody(body, isUpdate = false, indeptiveFolderId = null) {
   // https://developers.google.com/drive/v3/web/multipart-upload defines the structure
