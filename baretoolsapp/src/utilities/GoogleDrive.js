@@ -141,12 +141,12 @@ export function createSpreadSheet() {
   );
 }
 
-export function enterDataInSpreadSheet(id, range, value) {
+export function enterDataInSpreadSheet(id, range, values) {
   const options = configurePutOptions();
   const metaData = {
     range: range,
     majorDimension: 'ROWS',
-    values: [[value]]
+    values: [values]
   }
 
   const body = `${JSON.stringify(metaData)}\r\n`

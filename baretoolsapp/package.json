@@ -10,6 +10,7 @@
     "native-base": "^2.1.3",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
+    "react-native-datepicker": "^1.5.1",
     "react-native-google-sign-in": "0.0.14",
     "react-native-vector-icons": "^4.1.1",
     "react-native-view-shot": "^1.9.1",
