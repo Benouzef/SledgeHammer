@@ -14,7 +14,11 @@
     "react-native-google-sign-in": "0.0.14",
     "react-native-vector-icons": "^4.1.1",
     "react-native-view-shot": "^1.9.1",
-    "react-navigation": "^1.0.0-beta.9"
+    "react-navigation": "^1.0.0-beta.9",
+    "react-redux": "^5.0.5",
+    "redux": "^3.6.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-jest": "20.0.1",
