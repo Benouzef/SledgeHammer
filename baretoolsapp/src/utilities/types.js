@@ -1,0 +1,2 @@
+// Customers
+export const SET_SEARCHED_CUSTOMERS = 'SET_SEARCHED_CUSTOMERS';

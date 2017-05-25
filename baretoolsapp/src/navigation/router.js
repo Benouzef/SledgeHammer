@@ -12,6 +12,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SignatureStampScreen from '../screens/SignatureStampScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { connect } from 'react-redux';
+
 export const CustomersStack = StackNavigator({
   Customers: {
     screen: CustomersScreen,
@@ -111,3 +113,23 @@ export const Tabs = TabNavigator({
   },
   tabBarConfiguration
 );
+
+
+function mapDispatchToProps(dispatch) {
+  /*const boundActionCreators = bindActionCreators(ActionCreators, dispatch)
+  return {
+    actions: bindActionCreators(ActionCreators, dispatch)
+  };*/
+  return {
+    fetchCustomers: () => dispatch(fetchCustomers())
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    //navigationState: state.navigationState
+    appData: state.appData
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
