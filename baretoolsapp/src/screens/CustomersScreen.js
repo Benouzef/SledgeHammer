@@ -12,7 +12,6 @@ class CustomersScreen extends Component {
 
   componentWillMount() {
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.props.fetchCustomers();
   }
 
   renderRow(rowData) {
@@ -22,12 +21,6 @@ class CustomersScreen extends Component {
     return (
       <Text style={ styles.resultText }>{rowData.name}</Text>
     )
-  }
-
-
-  customers() {
-    console.log(this.props.searchedCustomers)
-    return Object.keys(this.props.searchedCustomers).map(key => this.props.searchedCustomers[key]);
   }
 
   render() {
@@ -97,7 +90,6 @@ function mapStateToProps(state) {
   console.log('state');
   console.log(state);
   return {
-    searchedCustomers: state.searchedCustomers,
     customers: state.searchedCustomers.customers,
     fetching: state.searchedCustomers.fetching
   };
