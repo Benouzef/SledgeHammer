@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, Button, TouchableHighlight, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, Button, TouchableHighlight, View, ListView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,30 +11,56 @@ class CustomersScreen extends Component {
   }
 
   componentWillMount() {
+    this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.props.fetchCustomers();
+  }
+
+  renderRow(rowData) {
+    console.log('rowData!');
+    console.log(rowData);
+
+    return (
+      <Text style={ styles.resultText }>{rowData.name}</Text>
+    )
   }
 
 
   customers() {
     console.log(this.props.searchedCustomers)
-    return Object.keys(this.props.searchedCustomers).map(key => this.props.searchedCustomers[key])
+    return Object.keys(this.props.searchedCustomers).map(key => this.props.searchedCustomers[key]);
   }
 
   render() {
+    console.log('PROPS!');
+    console.log(this.props);
+    console.log(this.props.fetching);
+
+    let isReady = false;
+    if (this.props.fetching === false) isReady = true;
+    if (this.props.fetching) isReady = false;
+
+    if (isReady) {
+      items = this.props.customers
+      readonlyMessage = null;
+    } else {
+      items = []
+      readonlyMessage = <Text style={styles.loading}>Loading...</Text>
+    }
+
     return (
       <ScrollView
         style={styles.container}
         >
+        {readonlyMessage}
 
-        <Text>Customers Screen</Text>
-        {
-          this.customers().map((customer) => {
-            return <TouchableHighlight key={customer.key}  style={styles.searchButton} onPress={ () => this.props.navigation.navigate('CustomerDetail') }>
-            <View>
-              <Text style={ styles.resultText }>{customer.name}</Text>
-            </View>
-          </TouchableHighlight>
-          })}
+
+
+
+          <ListView
+          dataSource={this.dataSource.cloneWithRows(items)}
+          enableEmptySections={true}
+          renderRow={this.renderRow.bind(this)}
+          />
       </ScrollView>
     );
   }
@@ -52,6 +78,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     color: '#FFF',
     height: 20,
+  },
+  loading: {
+    backgroundColor: '#000000',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 10,
+    paddingTop: 5,
+    paddingBottom: 5
   }
 });
 
@@ -60,8 +94,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
+  console.log('state');
+  console.log(state);
   return {
     searchedCustomers: state.searchedCustomers,
+    customers: state.searchedCustomers.customers,
+    fetching: state.searchedCustomers.fetching
   };
 }
 

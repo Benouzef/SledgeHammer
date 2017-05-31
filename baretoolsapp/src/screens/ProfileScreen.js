@@ -15,12 +15,6 @@ export default class ProfileScreen extends React.Component {
     super(props);
   }
 
-  getInitialState() {
-    return {
-      isLoading: true
-    };
-  }
-
   componentWillMount() {
     this.setState({
         isLoading: true

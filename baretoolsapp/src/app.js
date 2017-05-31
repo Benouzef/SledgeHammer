@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from './actions';
 
-import { fetchCustomers } from './actions/customers';
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +23,9 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    navigationState: state.navigationState
+    navigationState: state.navigationState,
+    customers: state.customers,
+    connected: state.connected
   };
 }
 

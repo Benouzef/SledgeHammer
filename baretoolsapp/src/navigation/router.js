@@ -13,6 +13,8 @@ import SignatureStampScreen from '../screens/SignatureStampScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
+import { ActionCreators } from '../actions';
+
 
 export const CustomersStack = StackNavigator({
   Customers: {
@@ -116,19 +118,14 @@ export const Tabs = TabNavigator({
 
 
 function mapDispatchToProps(dispatch) {
-  /*const boundActionCreators = bindActionCreators(ActionCreators, dispatch)
-  return {
-    actions: bindActionCreators(ActionCreators, dispatch)
-  };*/
-  return {
-    fetchCustomers: () => dispatch(fetchCustomers())
-  }
+  return bindActionCreators(ActionCreators, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
-    //navigationState: state.navigationState
-    appData: state.appData
+    navigationState: state.navigationState,
+    customers: state.customers,
+    connected: state.connected
   };
 }
 
