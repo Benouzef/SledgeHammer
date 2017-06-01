@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, Button, TouchableHighlight, View, ListView } from 'react-native';
+import { ScrollView, StyleSheet, Text, Button, TouchableHighlight, View, ListView, TextInput } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+import NavigationTextHeader from '../components/NavigationTextHeader';
 
 class CustomersScreen extends Component {
+  static navigationOptions = () => {
+      return {
+          headerRight: <NavigationTextHeader />
+      };
+  };
+
   constructor(props) {
     super(props);
   }
@@ -90,6 +97,7 @@ function mapStateToProps(state) {
   console.log('state');
   console.log(state);
   return {
+    addCustomer: state.searchedCustomers.addCustomer,
     customers: state.searchedCustomers.customers,
     fetching: state.searchedCustomers.fetching
   };

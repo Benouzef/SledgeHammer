@@ -100,6 +100,7 @@ export const Tabs = TabNavigator({
     },
     Customers: {
       screen: CustomersStack,
+      screenProps: ({name}) => this.props.addCustomer({name}),
     },
     Profile: {
       screen: ProfileStack,
@@ -124,8 +125,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     navigationState: state.navigationState,
-    customers: state.customers,
-    connected: state.connected
+    addCustomer: state.searchedCustomers.addCustomer,
   };
 }
 
