@@ -26,16 +26,11 @@ export default class ProfileScreen extends React.Component {
 
   async componentDidMount() {
     await signInWithGoogleAsync();
-
     user = await GoogleSignIn.signInPromise();
 
     console.log(user);
     console.log(user.accessToken);
     setApiToken(user.accessToken);
-
-    await firebaseApp.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(null, user.accessToken));
-    console.log('firebaseApp.auth().currentUser.getToken()');
-    console.log(firebaseApp.auth().currentUser.getToken());
 
     const indeptiveFolder = await getIndeptiveFolder();
     indeptiveFolderId = indeptiveFolder.id;
