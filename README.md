@@ -7,6 +7,8 @@ Usual commands for debug
 
 %ANDROID_HOME%\platform-tools\adb reverse tcp:8081 tcp:8081
 
+npm start
+
 react-native run-android
 
 Using Atom with ESLint
