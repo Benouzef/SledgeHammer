@@ -3,6 +3,9 @@ import { ScrollView, StyleSheet, Image, Text, Button, View, TouchableOpacity } f
 import { Form, Item, Label, Input } from 'native-base';
 import { signInWithGoogleAsync, getSignatureStamp, setApiToken, getIndeptiveFolder } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
+import * as firebase from 'firebase';
+
+import { firebaseApp } from '../utilities/firebase';
 
 let user = null;
 let signatureStampFile = null;
@@ -29,6 +32,10 @@ export default class ProfileScreen extends React.Component {
     console.log(user);
     console.log(user.accessToken);
     setApiToken(user.accessToken);
+
+    await firebaseApp.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(null, user.accessToken));
+    console.log('firebaseApp.auth().currentUser.getToken()');
+    console.log(firebaseApp.auth().currentUser.getToken());
 
     const indeptiveFolder = await getIndeptiveFolder();
     indeptiveFolderId = indeptiveFolder.id;

@@ -12,10 +12,13 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SignatureStampScreen from '../screens/SignatureStampScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import TimesheetsScreen from '../screens/TimesheetsScreen';
+import TimesheetDetailScreen from '../screens/TimesheetDetailScreen';
+
 import { connect } from 'react-redux';
 import { ActionCreators } from '../actions';
 
-
+// TODO: Delete CustomersStack
 export const CustomersStack = StackNavigator({
   Customers: {
     screen: CustomersScreen,
@@ -35,13 +38,32 @@ export const CustomersStack = StackNavigator({
   },
 });
 
+export const TimesheetsStack = StackNavigator({
+  Timesheets: {
+    screen: TimesheetsScreen,
+    navigationOptions: {
+      tabBarLabel: 'Timesheets',
+      headerTitle: 'Timesheets',
+      tabBarIcon: ({tintColor}) => <Icon name='calendar' size={20} color={tintColor} />,
+    },
+  },
+  TimesheetDetail: {
+    screen: TimesheetDetailScreen,
+    navigationOptions: {
+      headerTitle: 'Timesheet details',
+      tabBarLabel: 'Timesheets',
+      tabBarIcon: ({tintColor}) => <Icon name='calendar' size={20} color={tintColor} />,
+    },
+  },
+});
+
 export const MissionsStack = StackNavigator({
   Missions: {
     screen: MissionsScreen,
     navigationOptions: {
       headerTitle: 'Missions',
       tabBarLabel: 'Missions',
-      tabBarIcon: ({tintColor}) => <Icon name='calendar' size={20} color={tintColor} />,
+      tabBarIcon: ({tintColor}) => <Icon name='group' size={20} color={tintColor} />,
     },
   },
   MissionDetail: {
@@ -49,7 +71,7 @@ export const MissionsStack = StackNavigator({
     navigationOptions: {
       headerTitle: 'Mission details',
       tabBarLabel: 'Missions',
-      tabBarIcon: ({tintColor}) => <Icon name='calendar' size={20} color={tintColor} />,
+      tabBarIcon: ({tintColor}) => <Icon name='group' size={20} color={tintColor} />,
     },
   },
 });
@@ -95,12 +117,11 @@ const tabBarConfiguration = {
 
 
 export const Tabs = TabNavigator({
-    Missions: {
-      screen: MissionsStack,
+    Timesheets: {
+      screen: TimesheetsStack,
     },
     Customers: {
       screen: CustomersStack,
-      screenProps: ({name}) => this.props.addCustomer({name}),
     },
     Profile: {
       screen: ProfileStack,

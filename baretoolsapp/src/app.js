@@ -25,7 +25,7 @@ function mapStateToProps(state) {
   return {
     navigationState: state.navigationState,
     customers: state.customers,
-    connected: state.connected
+    timesheets: state.timesheets,
   };
 }
 

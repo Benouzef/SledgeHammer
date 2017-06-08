@@ -9,6 +9,9 @@ import reducer from './src/reducers';
 
 import { initialized, syncFirebase } from './src/utilities/firebase';
 
+import { signInWithGoogleAsync } from './src/utilities/GoogleDrive';
+import GoogleSignIn from 'react-native-google-sign-in';
+
 
 // middleware that logs actions
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
