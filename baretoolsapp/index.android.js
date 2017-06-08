@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import App from './src/app';
 import { Provider } from 'react-redux';
@@ -17,7 +17,6 @@ import GoogleSignIn from 'react-native-google-sign-in';
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
 
 function configureStore(initialState) {
-
   const enhancer = compose(
     applyMiddleware(
       thunkMiddleware, // lets us dispatch() functions
@@ -25,17 +24,34 @@ function configureStore(initialState) {
     ),
   );
   const store = createStore(reducer, initialState, enhancer);
-  syncFirebase(store);
 
   return store;
 }
 
 const store = configureStore({});
 
-const BaretoolsApp = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
+export default class BaretoolsApp extends Component {
+  async componentDidMount() {
+    await signInWithGoogleAsync();
+
+    user = await GoogleSignIn.signInPromise();
+
+    console.log(user);
+    console.log(user.accessToken);
+
+    syncFirebase(store, user.accessToken);
+
+  }
+
+  render() {
+
+    return (
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  }
+}
+
 
 AppRegistry.registerComponent('baretoolsapp', () => BaretoolsApp);

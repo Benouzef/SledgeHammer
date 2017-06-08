@@ -14,9 +14,9 @@ export const firebaseApp = firebase.initializeApp({
 export const customersRef = firebaseApp.database().ref('customers');
 const connectedRef = firebaseApp.database().ref('.info/connected');
 
-export const timesheetsRef = firebaseApp.database().ref('dev/timesheets'+firebaseApp.auth().currentUser.getToken());
+export let timesheetsRef = firebaseApp.database().ref('dev/timesheets');
 
-export function syncFirebase(store) {
+export function syncFirebase(store, accessToken) {
 
   //TODO: replace with Google Sign in
   //firebaseApp.auth().signInWithCredential
@@ -32,35 +32,55 @@ export function syncFirebase(store) {
 
   let user = GoogleSignIn.signInPromise();
   console.log('user');
-  console.log(user);
-  firebaseApp.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(null, user.accessToken));
-*/
-  customersRef.on('child_added', (snapshot) => {
-    store.dispatch(startFetching());
-    console.log('child_added');
-    console.log(snapshot.val());
-    store.dispatch(addCustomerSuccess(snapshot.val()));
-    store.dispatch(doneFetching());
+  console.log(user);*/
+  firebaseApp.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(null, accessToken));
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      console.log(firebaseApp.auth().currentUser);
+      console.log('firebaseApp.auth().currentUser');
+
+      // Customers
+      customersRef.on('child_added', (snapshot) => {
+        store.dispatch(startFetching());
+        console.log('child_added');
+        console.log(snapshot.val());
+        store.dispatch(addCustomerSuccess(snapshot.val()));
+        store.dispatch(doneFetching());
+      });
+
+      customersRef.on('child_removed', (snapshot) => {
+        console.log(snapshot.val().id);
+        store.dispatch(removeCustomerSuccess(snapshot.val().id));
+      });
+
+      timesheetsRef = firebaseApp.database().ref('dev/timesheets/' + firebaseApp.auth().currentUser.uid);
+
+      // Timesheets
+      timesheetsRef.on('child_added', (snapshot) => {
+        store.dispatch(startFetchingTimesheets());
+        console.log('child_added');
+        console.log(snapshot.val());
+        store.dispatch(addTimesheetSuccess(snapshot.val()));
+        store.dispatch(doneFetchingTimesheets());
+      });
+
+      timesheetsRef.on('child_removed', (snapshot) => {
+        console.log(snapshot.val().id);
+        store.dispatch(removeTimesheetSuccess(snapshot.val().id));
+      });
+
+    } else {
+      // No user is signed in.
+    }
   });
 
-  customersRef.on('child_removed', (snapshot) => {
-    console.log(snapshot.val().id);
-    store.dispatch(removeCustomerSuccess(snapshot.val().id));
-  });
 
-  // Timesheets
-  timesheetsRef.on('child_added', (snapshot) => {
-    store.dispatch(startFetchingTimesheets());
-    console.log('child_added');
-    console.log(snapshot.val());
-    store.dispatch(addTimesheetSuccess(snapshot.val()));
-    store.dispatch(doneFetchingTimesheets());
-  });
+  //timesheetsRef = firebaseApp.database().ref('dev/timesheets/'+accessToken);
 
-  timesheetsRef.on('child_removed', (snapshot) => {
-    console.log(snapshot.val().id);
-    store.dispatch(removeTimesheetSuccess(snapshot.val().id));
-  });
+
+
+
 
   /*connectedRef.on('value', snap => {
     console.log(snap.val());

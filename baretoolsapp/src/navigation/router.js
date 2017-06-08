@@ -123,9 +123,9 @@ export const Tabs = TabNavigator({
     Customers: {
       screen: CustomersStack,
     },
-    Profile: {
+    /*Profile: {
       screen: ProfileStack,
-    },
+    },*/
     About: {
       screen: AboutScreen,
       navigationOptions: {
