@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, Button, TouchableHighlight, View, ListView, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, Text, Button, TouchableHighlight, View, ListView, TextInput, Image, WebView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,9 +25,24 @@ class CustomersScreen extends Component {
     console.log('rowData!');
     console.log(rowData);
 
+    var imgSource = {
+      uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
+    };
+
     return (
-      <Text style={ styles.resultText }>{rowData.name}</Text>
-    )
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('CustomerDetail')} underlayColor='rgba(0,0,0,0)'>
+
+        <View>
+          <View style={styles.row}>
+
+            <Image style={styles.thumb} source={imgSource} />
+            <Text style={styles.text}>
+              {rowData.name}
+            </Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
   }
 
   render() {
@@ -48,15 +63,13 @@ class CustomersScreen extends Component {
     }
 
     return (
-      <ScrollView
-        style={styles.container}
-        >
+      <ScrollView>
         {readonlyMessage}
 
 
 
 
-          <ListView
+          <ListView contentContainerStyle={styles.list}
           dataSource={this.dataSource.cloneWithRows(items)}
           enableEmptySections={true}
           renderRow={this.renderRow.bind(this)}
@@ -67,17 +80,35 @@ class CustomersScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  list: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
   container: {
     flex: 1,
     paddingTop: 15,
   },
-  searchButton: {
-    flex: 0.3,
+  row: {
+    justifyContent: 'center',
+    padding: 5,
+    margin: 10,
+    width: 100,
+    height: 100,
+    backgroundColor: '#F6F6F6',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#CCC'
   },
-  resultText: {
-    backgroundColor: '#000',
-    color: '#FFF',
-    height: 20,
+  thumb: {
+    width: 64,
+    height: 64
+  },
+  text: {
+    flex: 1,
+    marginTop: 5,
+    fontWeight: 'bold'
   },
   loading: {
     backgroundColor: '#000000',
