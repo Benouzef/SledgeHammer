@@ -5,7 +5,7 @@ export const searchedTimesheets = createReducer({}, {
   [types.TIMESHEETS_ADD_SUCCESS](state, action) {
     let list = [];
     if (state.timesheets) {
-      list = state.customers.concat([action.timesheetData]).sort((a, b) => b.time - a.time);
+      list = state.timesheets.concat([action.timesheetData]).sort((a, b) => b.time - a.time);
     } else {
       list.push(action.timesheetData);
     }

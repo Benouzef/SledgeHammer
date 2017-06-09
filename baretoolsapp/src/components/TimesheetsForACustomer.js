@@ -4,9 +4,8 @@ import { ScrollView, StyleSheet, Text, TouchableHighlight, View, ListView, Image
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
-import TimesheetsForACustomer from '../components/TimesheetsForACustomer';
 
-class TimesheetsScreen extends Component {
+class TimesheetsForACustomer extends Component {
 
   constructor(props) {
     super(props);
@@ -17,41 +16,41 @@ class TimesheetsScreen extends Component {
   }
 
   renderRow(rowData) {
-    console.log('rowDataParent!');
+    console.log('rowDataChild!');
     console.log(rowData);
 
+    var imgSource = {
+      uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
+    };
+
     return (
-      <TimesheetsForACustomer customerName={rowData.customerName} year='2017' dataSource={rowData} {...this.props} />
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('TimesheetDetail')} underlayColor='rgba(0,0,0,0)'>
+
+        <View>
+          <View style={styles.row}>
+
+            <Image style={styles.thumb} source={imgSource} />
+            <Text style={styles.text}>
+              {rowData.amountOfWork}
+            </Text>
+          </View>
+        </View>
+      </TouchableHighlight>
     );
   }
 
   render() {
-    console.log('PROPS!');
-    console.log(this.props);
-    console.log(this.props.fetchingTimesheets);
-
-    let isReady = false;
-    if (this.props.fetchingTimesheets === false) isReady = true;
-    if (this.props.fetchingTimesheets) isReady = false;
-
-    if (isReady) {
-      items = this.props.timesheets
-      readonlyMessage = null;
-    } else {
-      items = []
-      readonlyMessage = <Text style={styles.loading}>Loading...</Text>
-    }
-
+    console.log('this.props.dataSource');
+    console.log(this.props.dataSource[this.props.year]);
     return (
-      <ScrollView>
-        {readonlyMessage}
-
+        <View>
+          <Text>{this.props.customerName}</Text>
           <ListView contentContainerStyle={styles.list}
-          dataSource={this.dataSource.cloneWithRows(items)}
+          dataSource={this.dataSource.cloneWithRows(this.props.dataSource[this.props.year])}
           enableEmptySections={true}
           renderRow={this.renderRow.bind(this)}
           />
-      </ScrollView>
+        </View>
     );
   }
 }
@@ -109,4 +108,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimesheetsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(TimesheetsForACustomer);
