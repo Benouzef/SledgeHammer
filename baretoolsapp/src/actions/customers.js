@@ -34,11 +34,6 @@ export function addCustomer(name) {
 }
 
 export function addCustomerSuccess(customerData) {
-  console.log('addCustomerSuccess');
-  console.log(customerData);
-
-
-
 
   return {
     type: types.ADD_CUSTOMER_SUCCESS,

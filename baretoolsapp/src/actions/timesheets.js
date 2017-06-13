@@ -14,38 +14,19 @@ export function addTimesheet(customerId, year, month, token) {
   })
 
   const day = 10;
-  //const user = GoogleSignIn.signInPromise();
+
   setApiToken(token);
 
   getIndeptiveFolder().then(function (folder) {
     return folder;
   }).then(function(folder) {
     var result = [];
-    console.log('folder');
-    console.log(folder);
     return createSpreadSheet(folder.id);
   }).then(function (result) {
-    console.log('result');
-    console.log(result);
     return moveSpreadSheet(result[1], 'Mon timesheet de moi', result[0]);
   }).then(function (spreadsheetId) {
-    console.log('spreadsheetId');
-    console.log(spreadsheetId);
-    console.log(spreadsheetId.id);
     return enterDataInSpreadSheet(spreadsheetId.id, 'Sheet1!A1:C1', [year,month,day]);
   });
-
-  /*console.log('folder');
-  console.log(folder);
-
-  createSpreadSheet().then(function(spreadsheetId) {
-    console.log('folder');
-    console.log(folder);
-    return moveSpreadSheet(spreadsheetId, 'Mon timesheet de moi', folder.id);
-  }
-);*/
-
-  //enterDataInSpreadSheet(spreadsheetId, 'Sheet1!C6', 'Coucou Benoit');
 
   return {
     type: types.TIMESHEETS_ADD

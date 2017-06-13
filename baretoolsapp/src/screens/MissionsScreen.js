@@ -85,11 +85,7 @@ export default class MissionsScreen extends React.Component {
   }
 
   _pressRow(rowID: number) {
-    console.log(rowID);
-    //this._pressData[rowID] = !this._pressData[rowID];
-    //this.setState({dataSource: this.state.dataSource.cloneWithRows(
-    //  this._genRows(this._pressData)
-    //)});
+    
   }
 
 }

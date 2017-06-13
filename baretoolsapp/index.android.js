@@ -40,9 +40,6 @@ export default class BaretoolsApp extends Component {
 
     user = await GoogleSignIn.signInPromise();
 
-    console.log(user);
-    console.log(user.accessToken);
-
     syncFirebase(store, user.accessToken);
 
     this.setState(

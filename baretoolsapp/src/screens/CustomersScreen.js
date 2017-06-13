@@ -20,9 +20,6 @@ class CustomersScreen extends Component {
   }
 
   renderRow(rowData) {
-    console.log('rowData!');
-    console.log(rowData);
-
     var imgSource = {
       uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
     };
@@ -44,9 +41,6 @@ class CustomersScreen extends Component {
   }
 
   render() {
-    console.log('PROPS!');
-    console.log(this.props);
-    console.log(this.props.fetching);
 
     let isReady = false;
     if (this.props.fetching === false) isReady = true;
@@ -123,8 +117,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state');
-  console.log(state);
   return {
     addCustomer: state.searchedCustomers.addCustomer,
     customers: state.searchedCustomers.customers,

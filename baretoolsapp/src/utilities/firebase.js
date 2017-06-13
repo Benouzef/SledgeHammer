@@ -17,40 +17,19 @@ const connectedRef = firebaseApp.database().ref('.info/connected');
 export let timesheetsRef = firebaseApp.database().ref('dev/timesheets');
 
 export function syncFirebase(store, accessToken) {
-
-  //TODO: replace with Google Sign in
-  //firebaseApp.auth().signInWithCredential
-  //firebaseApp.auth().signInAnonymously();
-  //console.log(firebaseApp.auth().currentUser.getToken());
-
-  //signInWithGoogleAsync();
-  /*GoogleSignIn.configure({
-    clientID: '484760334438-h1av8l1pas6flr6anj5qpl6u3j511s62.apps.googleusercontent.com',
-    scopes: ['profile', 'email', 'https://www.googleapis.com/auth/drive'],
-    shouldFetchBasicProfile: true,
-  })
-
-  let user = GoogleSignIn.signInPromise();
-  console.log('user');
-  console.log(user);*/
+  // sign in using google access token provided in app init
   firebaseApp.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(null, accessToken));
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      // User is signed in.
-      console.log(firebaseApp.auth().currentUser);
-      console.log('firebaseApp.auth().currentUser');
-
       // Customers
       customersRef.on('child_added', (snapshot) => {
         store.dispatch(startFetching());
-        console.log('child_added');
-        console.log(snapshot.val());
         store.dispatch(addCustomerSuccess(snapshot.val()));
         store.dispatch(doneFetching());
       });
 
       customersRef.on('child_removed', (snapshot) => {
-        console.log(snapshot.val().id);
         store.dispatch(removeCustomerSuccess(snapshot.val().id));
       });
 
@@ -59,14 +38,11 @@ export function syncFirebase(store, accessToken) {
       // Timesheets
       timesheetsRef.on('child_added', (snapshot) => {
         store.dispatch(startFetchingTimesheets());
-        console.log('child_added');
-        console.log(snapshot.val());
         store.dispatch(addTimesheetSuccess(snapshot.val()));
         store.dispatch(doneFetchingTimesheets());
       });
 
       timesheetsRef.on('child_removed', (snapshot) => {
-        console.log(snapshot.val().id);
         store.dispatch(removeTimesheetSuccess(snapshot.val().id));
       });
 
@@ -74,18 +50,4 @@ export function syncFirebase(store, accessToken) {
       // No user is signed in.
     }
   });
-
-
-  //timesheetsRef = firebaseApp.database().ref('dev/timesheets/'+accessToken);
-
-
-
-
-
-  /*connectedRef.on('value', snap => {
-    console.log(snap.val());
-    if (snap.val() === true) {
-      store.dispatch(goOnline());
-    }
-  });*/
 }

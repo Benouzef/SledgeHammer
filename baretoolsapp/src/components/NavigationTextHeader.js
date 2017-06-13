@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { TextInput, View } from 'react-native';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 
 class NavigationTextHeader extends Component {
   handleChange(text) {
-    console.log('text');
-    console.log(text);
+    // Adding a new customer which name has been entered by the user
     let customerId = this.props.addCustomer(text);
-    console.log('mycustomerId');
-    console.log(customerId);
-    this.props.addTimesheet(customerId.id, '2017', '12', this.props.token);
+
+    // Adding default timesheet for created customer : by default timesheet for current month and current year
+    var today = Date.now();
+    this.props.addTimesheet(customerId.id, today.getFullYear(), today.getMonth(), this.props.token);
   }
 
   render() {
@@ -27,8 +26,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state');
-  console.log(state);
   return {
     addCustomer: state.searchedCustomers.addCustomer,
   };

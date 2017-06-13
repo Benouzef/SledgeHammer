@@ -11,8 +11,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('this.props');
-    console.log(this.props);
     return (
       <Tabs screenProps={this.props.userAccessToken} {...this.props} />
     );

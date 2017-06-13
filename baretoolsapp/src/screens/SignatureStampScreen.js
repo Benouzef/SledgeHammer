@@ -46,8 +46,6 @@ export default class SignatureStampScreen extends React.Component {
 
     user = await GoogleSignIn.signInPromise();
 
-    console.log(user);
-    console.log(user.accessToken);
     setApiToken(user.accessToken);
 
     this.setState({
@@ -57,7 +55,6 @@ export default class SignatureStampScreen extends React.Component {
 
   _onNavigationChange = (args) => {
     var returnedHash = unescape(args.url);
-    console.log(unescape(args.url));
 
     if(returnedHash.includes('message')) {
       setTimeout(() => {}, 1000);
@@ -79,7 +76,6 @@ export default class SignatureStampScreen extends React.Component {
 
 
   _renderError = (args) => {
-    console.log(args);
   };
 
   _renderLoading = (args) => {
@@ -87,7 +83,6 @@ export default class SignatureStampScreen extends React.Component {
   };
 
   _uploadSignature = (data) => {
-    console.log(data);
     uploadFile(data, this.props.navigation.state.params.signatureStampFileId, this.props.navigation.state.params.indeptiveFolderId);
     const backAction = NavigationActions.back({
       key: 'SignatureStamp'

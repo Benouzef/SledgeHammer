@@ -8,13 +8,11 @@ const boundaryString = 'indeptive_com_bndry'; // can be anything unique, needed 
 let apiToken = null;
 
 export function setApiToken(token) {
-  console.log(token);
   apiToken = token
 }
 
 export async function getIndeptiveFolder() {
   var folder = await get(queryParamsForIndeptiveFolder());
-  console.log(folder);
 
   if (folder == null) {
     createDirectory('com.indeptive');
@@ -27,13 +25,6 @@ export async function getIndeptiveFolder() {
 export async function getSignatureStamp(indeptiveFolder) {
   // 3 - Get Signature Stamp if it exists
   var signatureStampFile = await get(queryParamsForSignature(indeptiveFolder.id), 'files/webContentLink,files/id,files/thumbnailLink');
-  console.log(signatureStampFile);
-
-  /*if (signatureStampFile == null) {
-    createDefaultSignature(indeptiveFolder.id);
-    signatureStampFile = await get(queryParamsForSignature(indeptiveFolder.id), 'files/webContentLink,files/id,files/thumbnailLink');
-    console.log(signatureStampFile);
-  }*/
 
   return signatureStampFile;
 }
@@ -44,7 +35,6 @@ function queryParamsForIndeptiveFolder() {
 
 function queryParamsForSignature(indeptiveFolderId) {
   var q = `mimeType contains 'image' and name='SignatureStampForIndeptive.png' and trashed=false and '${indeptiveFolderId}' in parents`;
-  console.log(q);
   return encodeURIComponent(q);
 }
 
@@ -54,7 +44,6 @@ function get(qParams, withFields) {
     .then(parseAndHandleErrors)
     .then((body) => {
       if (body && body.files && body.files.length > 0) {
-          console.log(body.files[0].id);
           return body.files[0];
       }
       else {
@@ -64,14 +53,11 @@ function get(qParams, withFields) {
 }
 
 function parseAndHandleErrors(response) {
-  console.log('parseAndHandleErrors');
   if (response.ok) {
-    console.log('parseAndHandleErrors : OK');
     return response.json()
   }
   return response.json()
     .then((error) => {
-      console.log('parseAndHandleErrors : KO');
       throw new Error(JSON.stringify(error))
     })
 }
@@ -131,7 +117,6 @@ export function createSpreadSheet(folderId) {
   .then(parseAndHandleErrors)
   .then((body) => {
     if (body && body.spreadsheetId) {
-        console.log(body.spreadsheetId);
         var result = [];
         result.push(folderId);
         result.push(body.spreadsheetId);
@@ -153,8 +138,6 @@ export function enterDataInSpreadSheet(id, range, values) {
   }
 
   const body = `${JSON.stringify(metaData)}\r\n`
-  console.log('id `id`');
-  console.log(id);
   return fetch(`${baseSpreadSheetUrl}/${id}/values/${range}?valueInputOption=USER_ENTERED`, {
     ...options,
     body
@@ -163,8 +146,6 @@ export function enterDataInSpreadSheet(id, range, values) {
 }
 
 export function moveSpreadSheet(id, name, directoryId) {
-  console.log(directoryId);
-  console.log(`${directoryId}`);
   const metaData = {
     addParents: directoryId,
     name: name
@@ -174,7 +155,6 @@ export function moveSpreadSheet(id, name, directoryId) {
   + `${JSON.stringify(metaData)}\r\n`
   + `--${boundaryString}--`
   const options = configurePostOptions(0, true);
-  console.log(body);
   return fetch(`${url}/files/${id}?removeParents=root&addParents=${directoryId}`, {
     ...options,
     body,
@@ -215,9 +195,6 @@ export function uploadFile(content, existingFileId, indeptiveFolderId) {
 
   const body = createMultipartBody(content, isUpdate, indeptiveFolderId)
   const options = configurePostOptions(body.length, isUpdate);
-
-  console.log(isUpdate);
-  console.log(fileIdToAppend);
 
   return fetch(`${uploadUrl}/files${fileIdToAppend}?uploadType=multipart`, {
     ...options,

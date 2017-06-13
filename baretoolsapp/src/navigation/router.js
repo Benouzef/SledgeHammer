@@ -123,6 +123,7 @@ export const Tabs = TabNavigator({
     Customers: {
       screen: CustomersStack,
     },
+    //TODO : Reactivate Profile Stack for user profile information
     /*Profile: {
       screen: ProfileStack,
     },*/

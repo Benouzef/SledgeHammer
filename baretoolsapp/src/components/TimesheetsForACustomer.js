@@ -16,14 +16,10 @@ class TimesheetsForACustomer extends Component {
   }
 
   addTimesheetToCurrentCustomer() {
-    console.log('addTimesheetToCurrentCustomer');
-    console.log(this.props);
     this.props.addTimesheet(this.props.customerId, this.props.year, '12', this.props.token);
   }
 
   renderRow(rowData) {
-    console.log('rowDataChild!');
-    console.log(rowData);
 
     var imgSource = {
       uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
@@ -46,8 +42,6 @@ class TimesheetsForACustomer extends Component {
   }
 
   render() {
-    console.log('this.props.dataSource');
-    console.log(this.props.dataSource[this.props.year]);
     return (
         <View>
           <Text>{this.props.customerName}</Text>

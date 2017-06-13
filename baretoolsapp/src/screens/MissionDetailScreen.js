@@ -13,19 +13,12 @@ export default class MissionDetailScreen extends React.Component {
   }
 
   async saveDateToGoogle(date) {
-    console.log(date.toString());
     var map = new Map(Object.entries(date));
-    console.log(map.get('date'));
     var d = new Date(Date.parse(map.get('date')));
-
-    console.log(d.getDate());
-    console.log(d.getMonth());
-    console.log(d.getFullYear());
 
     var day = d.getDate();
     var month = d.getMonth() + 1;
     var year = d.getFullYear();
-    console.log(this.state.spreadsheetId);
     await enterDataInSpreadSheet(this.state.spreadsheetId, 'Sheet1!A1:C1', [year,month,day]);
   }
 

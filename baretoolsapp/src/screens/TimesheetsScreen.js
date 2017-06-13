@@ -10,8 +10,6 @@ class TimesheetsScreen extends Component {
 
   constructor(props) {
     super(props);
-    console.log('this.props');
-    console.log(this.props);
   }
 
   componentWillMount() {
@@ -19,8 +17,6 @@ class TimesheetsScreen extends Component {
   }
 
   renderRow(rowData) {
-    console.log('rowDataParent!');
-    console.log(rowData);
 
     return (
       <TimesheetsForACustomer
@@ -33,9 +29,6 @@ class TimesheetsScreen extends Component {
   }
 
   render() {
-    console.log('PROPS!');
-    console.log(this.props);
-    console.log(this.props.fetchingTimesheets);
 
     let isReady = false;
     if (this.props.fetchingTimesheets === false) isReady = true;

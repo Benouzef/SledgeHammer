@@ -28,23 +28,18 @@ export default class ProfileScreen extends React.Component {
     await signInWithGoogleAsync();
     user = await GoogleSignIn.signInPromise();
 
-    console.log(user);
-    console.log(user.accessToken);
     setApiToken(user.accessToken);
 
     const indeptiveFolder = await getIndeptiveFolder();
     indeptiveFolderId = indeptiveFolder.id;
     signatureStampFile = await getSignatureStamp(indeptiveFolder);
-    console.log(signatureStampFile);
     if (signatureStampFile == null) {
       urlForSignature = null;
       signatureStampFileId = null
     } else {
       signatureStampFileId = signatureStampFile.id;
-      console.log(signatureStampFile.thumbnailLink);
       urlForSignature = signatureStampFile.thumbnailLink.replace('&export=download','');
       this.props.urlForSignature = urlForSignature;
-      console.log(urlForSignature);
     }
 
     this.setState({
