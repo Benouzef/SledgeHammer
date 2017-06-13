@@ -97,7 +97,7 @@ export const ProfileStack = StackNavigator({
 
 const tabBarConfiguration = {
   tabBarPosition: 'bottom',
-  swipeEnabled: false,
+  swipeEnabled: true,
   tabBarOptions: {
     activeTintColor: '#e91e63',
     inactiveTintColor: '#ffffff',
