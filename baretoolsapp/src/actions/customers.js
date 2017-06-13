@@ -28,7 +28,8 @@ export function addCustomer(name) {
   );
 
   return {
-    type: types.ADD_CUSTOMER
+    type: types.ADD_CUSTOMER,
+    id: id
   }
 }
 

@@ -7,11 +7,9 @@ import { ActionCreators } from '../actions';
 import NavigationTextHeader from '../components/NavigationTextHeader';
 
 class CustomersScreen extends Component {
-  static navigationOptions = () => {
-      return {
-          headerRight: <NavigationTextHeader />
-      };
-  };
+  static navigationOptions = ({ navigation, screenProps }) => ({
+      headerRight: <NavigationTextHeader token={screenProps} />
+      });
 
   constructor(props) {
     super(props);

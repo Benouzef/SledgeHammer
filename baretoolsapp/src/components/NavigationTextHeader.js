@@ -9,7 +9,10 @@ class NavigationTextHeader extends Component {
   handleChange(text) {
     console.log('text');
     console.log(text);
-    this.props.addCustomer(text);
+    let customerId = this.props.addCustomer(text);
+    console.log('mycustomerId');
+    console.log(customerId);
+    this.props.addTimesheet(customerId.id, '2017', '12', this.props.token);
   }
 
   render() {
