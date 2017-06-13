@@ -3,6 +3,7 @@ package com.baretoolsapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.googlesignin.RNGoogleSignInPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactlibrary.googlesignin.RNGoogleSignInPackage;
@@ -26,9 +27,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNViewShotPackage(),
-            new VectorIconsPackage(),
-            new RNGoogleSignInPackage()
+          new RNViewShotPackage(),
+          new VectorIconsPackage(),
+          new RNGoogleSignInPackage()
       );
     }
   };

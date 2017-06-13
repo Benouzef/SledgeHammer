@@ -21,7 +21,11 @@ class TimesheetsScreen extends Component {
     console.log(rowData);
 
     return (
-      <TimesheetsForACustomer customerName={rowData.customerName} year='2017' dataSource={rowData} {...this.props} />
+      <TimesheetsForACustomer
+        customerId={rowData.customerId}
+        customerName={rowData.customerName}
+        year='2017'
+        dataSource={rowData} {...this.props} />
     );
   }
 

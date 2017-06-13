@@ -1,14 +1,13 @@
 import * as types from '../utilities/types';
 import { timesheetsRef } from '../utilities/firebase';
 
-export function addTimesheet(month) {
-  const id = Math.random().toString(36).substring(7);
-  const timesheetRef = timesheetsRef.child(id);
+export function addTimesheet(customerId, year, month) {
+  const timesheetRef = timesheetsRef.child(customerId).child(year).child(month);
 
-  timesheetsRef.set({
-    id,
-    month: month,
-    time: new Date().getTime()
+  timesheetRef.set({
+    amountOfWork: 0,
+    lastStatus: 'Forecast',
+    workUnit: 'days'
   })
 
   return {

@@ -1,5 +1,5 @@
 import * as types from '../utilities/types';
-import { customersRef } from '../utilities/firebase';
+import { customersRef, timesheetsRef } from '../utilities/firebase';
 
 export function addCustomer(name) {
   const id = Math.random().toString(36).substring(7);
@@ -9,7 +9,23 @@ export function addCustomer(name) {
     id,
     name: name,
     time: new Date().getTime()
-  })
+  });
+
+  const newTimesheetRef = timesheetsRef.child(id);
+  newTimesheetRef.set(
+    {
+      '2017': {
+        '06': {
+          amountOfWork: 0,
+          lastStatus: 'Pending',
+          workUnit: 'days'
+        }
+      },
+      customerId: id,
+      customerName: name,
+      missionType: '1-Full time'
+    }
+  );
 
   return {
     type: types.ADD_CUSTOMER

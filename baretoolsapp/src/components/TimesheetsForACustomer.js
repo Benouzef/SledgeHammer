@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableHighlight, View, ListView, Image } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableHighlight, View, ListView, Image, Button } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,6 +13,11 @@ class TimesheetsForACustomer extends Component {
 
   componentWillMount() {
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  }
+
+  addTimesheetToCurrentCustomer() {
+
+    this.props.addTimesheet(this.props.customerId, this.props.year, '12');
   }
 
   renderRow(rowData) {
@@ -45,6 +50,7 @@ class TimesheetsForACustomer extends Component {
     return (
         <View>
           <Text>{this.props.customerName}</Text>
+          <Button title="Add" onPress={() => this.addTimesheetToCurrentCustomer()}/>
           <ListView contentContainerStyle={styles.list}
           dataSource={this.dataSource.cloneWithRows(this.props.dataSource[this.props.year])}
           enableEmptySections={true}
