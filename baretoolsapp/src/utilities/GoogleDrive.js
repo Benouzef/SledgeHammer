@@ -123,7 +123,7 @@ function createDirectory(directoryName) {
   .then(parseAndHandleErrors);
 }
 
-export function createSpreadSheet() {
+export function createSpreadSheet(folderId) {
   const options = configurePostOptions(0, false);
   return fetch(`${baseSpreadSheetUrl}`, {
     ...options
@@ -132,7 +132,10 @@ export function createSpreadSheet() {
   .then((body) => {
     if (body && body.spreadsheetId) {
         console.log(body.spreadsheetId);
-        return body.spreadsheetId;
+        var result = [];
+        result.push(folderId);
+        result.push(body.spreadsheetId);
+        return result;
     }
     else {
         return null;
@@ -150,7 +153,8 @@ export function enterDataInSpreadSheet(id, range, values) {
   }
 
   const body = `${JSON.stringify(metaData)}\r\n`
-
+  console.log('id `id`');
+  console.log(id);
   return fetch(`${baseSpreadSheetUrl}/${id}/values/${range}?valueInputOption=USER_ENTERED`, {
     ...options,
     body

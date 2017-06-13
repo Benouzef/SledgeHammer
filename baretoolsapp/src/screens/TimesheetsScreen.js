@@ -10,6 +10,8 @@ class TimesheetsScreen extends Component {
 
   constructor(props) {
     super(props);
+    console.log('this.props');
+    console.log(this.props);
   }
 
   componentWillMount() {
@@ -22,6 +24,7 @@ class TimesheetsScreen extends Component {
 
     return (
       <TimesheetsForACustomer
+        token={this.props.screenProps}
         customerId={rowData.customerId}
         customerName={rowData.customerName}
         year='2017'

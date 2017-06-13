@@ -16,8 +16,9 @@ class TimesheetsForACustomer extends Component {
   }
 
   addTimesheetToCurrentCustomer() {
-
-    this.props.addTimesheet(this.props.customerId, this.props.year, '12');
+    console.log('addTimesheetToCurrentCustomer');
+    console.log(this.props);
+    this.props.addTimesheet(this.props.customerId, this.props.year, '12', this.props.token);
   }
 
   renderRow(rowData) {

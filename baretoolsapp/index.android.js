@@ -31,6 +31,10 @@ function configureStore(initialState) {
 const store = configureStore({});
 
 export default class BaretoolsApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {userAccessToken: ''};
+  }
   async componentDidMount() {
     await signInWithGoogleAsync();
 
@@ -41,13 +45,15 @@ export default class BaretoolsApp extends Component {
 
     syncFirebase(store, user.accessToken);
 
+    this.setState(
+      {userAccessToken: user.accessToken}
+    );
   }
 
   render() {
-
     return (
       <Provider store={store}>
-        <App />
+        <App userAccessToken={this.state.userAccessToken} />
       </Provider>
     );
   }
