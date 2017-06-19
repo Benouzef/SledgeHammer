@@ -19,21 +19,28 @@ class TimesheetsForACustomer extends Component {
     this.props.addTimesheet(this.props.customerId, this.props.year, '12', this.props.token);
   }
 
-  renderRow(rowData) {
+  renderRow(rowData, sectionID, rowID) {
 
     var imgSource = {
       uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
     };
 
     return (
-      <TouchableHighlight onPress={() => this.props.navigation.navigate('TimesheetDetail')} underlayColor='rgba(0,0,0,0)'>
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('TimesheetDetail',
+      { timesheetDetail:  rowData,
+        missionType: this.props.missionType,
+        month: rowID,
+        year: this.props.year,
+        customerId: this.props.customerId,
+        token: this.props.token
+      })} underlayColor='rgba(0,0,0,0)'>
 
         <View>
           <View style={styles.row}>
 
             <Image style={styles.thumb} source={imgSource} />
             <Text style={styles.text}>
-              {rowData.amountOfWork}
+              {rowData.amountOfWork} / {rowID}.{this.props.year}
             </Text>
           </View>
         </View>

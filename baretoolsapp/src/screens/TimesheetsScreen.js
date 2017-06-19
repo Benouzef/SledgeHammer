@@ -23,6 +23,7 @@ class TimesheetsScreen extends Component {
         token={this.props.screenProps}
         customerId={rowData.customerId}
         customerName={rowData.customerName}
+        missionType={rowData.missionType}
         year='2017'
         dataSource={rowData} {...this.props} />
     );
