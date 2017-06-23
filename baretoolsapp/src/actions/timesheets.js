@@ -35,6 +35,8 @@ export function addDayToCurrentTimesheet(customerId, year, month, day, amount, t
 export function addTimesheet(customerId, year, month, token) {
   const timesheetRef = timesheetsRef.child(customerId).child(year).child(month);
 
+  console.log('month');
+  console.log(month);
   timesheetRef.set({
     amountOfWork: 0,
     lastStatus: 'Forecast',

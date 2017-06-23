@@ -14,6 +14,7 @@ export function addCustomer(name) {
   const newTimesheetRef = timesheetsRef.child(id);
   newTimesheetRef.set(
     {
+      // TODO: Set proper initial timesheet info when adding a new customer (merge calls done in NavigationTextHeader)
       '2017': {
         '06': {
           amountOfWork: 0,

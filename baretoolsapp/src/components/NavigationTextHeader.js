@@ -10,8 +10,10 @@ class NavigationTextHeader extends Component {
     let customerId = this.props.addCustomer(text);
 
     // Adding default timesheet for created customer : by default timesheet for current month and current year
-    var today = Date.now();
-    this.props.addTimesheet(customerId.id, today.getFullYear(), today.getMonth(), this.props.token);
+    var today = new Date();
+    var month = today.getMonth() + 1;
+    if (month <= 9) month = '0' + month;
+    this.props.addTimesheet(customerId.id, today.getFullYear(), month, this.props.token);
   }
 
   render() {

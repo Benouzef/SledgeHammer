@@ -21,7 +21,7 @@ class TimesheetsForACustomer extends Component {
 
     let month = 0;
     if (Number.parseInt(this.state.maxMonth) <=0) {
-      month = new Date().getMonth();
+      month = new Date().getMonth() + 1;
     } else if (Number.parseInt(this.state.maxMonth) < 12) {
       month = Number.parseInt(this.state.maxMonth) + 1;
     } else if (Number.parseInt(this.state.maxMonth) == 12) {
