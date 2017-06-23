@@ -9,6 +9,7 @@ class TimesheetsForACustomer extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {maxMonth: 0};
   }
 
   componentWillMount() {
@@ -16,7 +17,29 @@ class TimesheetsForACustomer extends Component {
   }
 
   addTimesheetToCurrentCustomer() {
-    this.props.addTimesheet(this.props.customerId, this.props.year, '12', this.props.token);
+
+
+    let month = 0;
+    if (Number.parseInt(this.state.maxMonth) <=0) {
+      month = new Date().getMonth();
+    } else if (Number.parseInt(this.state.maxMonth) < 12) {
+      month = Number.parseInt(this.state.maxMonth) + 1;
+    } else if (Number.parseInt(this.state.maxMonth) == 12) {
+      month = Number.parseInt(this.state.maxMonth);
+    }
+
+    console.log('this.state.maxMonth');
+    console.log(this.state.maxMonth);
+
+    console.log('month');
+    console.log(month);
+
+    if (month <= 9) month = '0' + month;
+
+    console.log('month');
+    console.log(month);
+
+    this.props.addTimesheet(this.props.customerId, this.props.year, month, this.props.token);
   }
 
   renderRow(rowData, sectionID, rowID) {
@@ -24,6 +47,13 @@ class TimesheetsForACustomer extends Component {
     var imgSource = {
       uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
     };
+
+    if (rowID > this.state.maxMonth) {
+      this.setState(
+        {maxMonth: rowID}
+      );
+    }
+
 
     return (
       <TouchableHighlight onPress={() => this.props.navigation.navigate('TimesheetDetail',
@@ -35,14 +65,16 @@ class TimesheetsForACustomer extends Component {
         token: this.props.token
       })} underlayColor='rgba(0,0,0,0)'>
 
-        <View>
-          <View style={styles.row}>
-
-            <Image style={styles.thumb} source={imgSource} />
-            <Text style={styles.text}>
-              {rowData.amountOfWork} / {rowID}.{this.props.year}
-            </Text>
-          </View>
+        <View style={styles.row}>
+          <Text style={styles.headertext}>
+            {rowID} {this.props.year}
+          </Text>
+          <Text style={styles.centertext}>
+            {rowData.amountOfWork} d
+          </Text>
+          <Text style={styles.footertext}>
+             {rowData.lastStatus}
+          </Text>
         </View>
       </TouchableHighlight>
     );
@@ -51,8 +83,10 @@ class TimesheetsForACustomer extends Component {
   render() {
     return (
         <View>
-          <Text>{this.props.customerName}</Text>
-          <Button title="Add" onPress={() => this.addTimesheetToCurrentCustomer()}/>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.customertext}>{this.props.customerName}</Text>
+            <Button style={styles.addButton} title="Add" onPress={() => this.addTimesheetToCurrentCustomer()}/>
+          </View>
           <ListView contentContainerStyle={styles.list}
           dataSource={this.dataSource.cloneWithRows(this.props.dataSource[this.props.year])}
           enableEmptySections={true}
@@ -65,7 +99,7 @@ class TimesheetsForACustomer extends Component {
 
 const styles = StyleSheet.create({
   list: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
@@ -89,10 +123,32 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64
   },
-  text: {
+  customertext: {
+    padding: 5,
     flex: 1,
-    marginTop: 5,
-    fontWeight: 'bold'
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'left'
+  },
+  addButton: {
+    flex: 0.5,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  headertext: {
+    flex: 0.5,
+    textAlign: 'center'
+  },
+  centertext: {
+    flex: 1,
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  footertext: {
+    flex: 0.5,
+    fontSize: 12,
+    textAlign: 'center'
   },
   loading: {
     backgroundColor: '#000000',

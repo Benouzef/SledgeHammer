@@ -59,7 +59,7 @@ class TimesheetsScreen extends Component {
 
 const styles = StyleSheet.create({
   list: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },

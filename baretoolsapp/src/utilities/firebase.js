@@ -36,7 +36,7 @@ export function syncFirebase(store, accessToken) {
       timesheetsRef = firebaseApp.database().ref('dev/timesheets/' + firebaseApp.auth().currentUser.uid);
 
       // Timesheets
-      timesheetsRef.on('child_added', (snapshot) => {
+      timesheetsRef.orderByKey().on('child_added', (snapshot) => {
         store.dispatch(startFetchingTimesheets());
         store.dispatch(addTimesheetSuccess(snapshot.val()));
         store.dispatch(doneFetchingTimesheets());
