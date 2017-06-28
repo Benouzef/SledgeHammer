@@ -19,10 +19,6 @@ class CustomersScreen extends Component {
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
-  componentWillReceiveProps(NextProps) {
-    console.log('componentWillReceiveProps', NextProps);
-  }
-
   renderRow(rowData) {
     var imgSource = {
       uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
