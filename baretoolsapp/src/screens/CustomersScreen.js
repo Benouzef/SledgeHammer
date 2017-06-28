@@ -114,8 +114,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state.firebaseReducer');
-  console.log(state.firebaseReducer);
   return {
     customers: state.firebaseReducer.customers.items,
     fetching: state.firebaseReducer.customers.inProgress

@@ -2,6 +2,16 @@ import * as types from '../utilities/types';
 import { timesheetsRef } from '../utilities/firebase';
 import { signInWithGoogleAsync, setApiToken, createSpreadSheet, moveSpreadSheet, getIndeptiveFolder, enterDataInSpreadSheet } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
+import { listenToPath } from './firebase';
+import type {
+  MetaType, UpdateItemsActions, RemoveItemActions, ListenToPathActions
+} from '../utilities/types';
+import { metaTypes } from '../utilities/types';
+
+
+export function listenToTimesheets(path) {
+  return listenToPath(metaTypes.timesheets, path);
+}
 
 export function addDayToCurrentTimesheet(customerId, year, month, day, amount, token) {
   const concatDay = year + '' + month + '' + day;

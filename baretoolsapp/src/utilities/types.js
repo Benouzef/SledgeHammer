@@ -30,6 +30,7 @@ export const firebase = {
 
 export const metaTypes = {
   customers: 'customers',
+  timesheets: 'timesheets',
 }
 
 export type MetaType = $Keys<typeof metaTypes>

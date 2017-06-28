@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
-import { listenToCustomers, addCustomerSuccess, removeCustomerSuccess, startFetching, doneFetching } from '../actions/customers';
-import { addTimesheetSuccess, removeTimesheetSuccess, startFetchingTimesheets, doneFetchingTimesheets } from '../actions/timesheets';
+import { listenToCustomers } from '../actions/customers';
+import { listenToTimesheets } from '../actions/timesheets';
 import { signInWithGoogleAsync } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
 
@@ -25,21 +25,10 @@ export function syncFirebase(store, accessToken) {
       // Customers
       store.dispatch(listenToCustomers());
 
-      /*customersRef.on('child_added', (snapshot) => {
-        store.dispatch(startFetching());
-        store.dispatch(addCustomerSuccess(snapshot.val()));
-        store.dispatch(doneFetching());
-      });
-
-      customersRef.on('child_removed', (snapshot) => {
-        store.dispatch(removeCustomerSuccess(snapshot.val().id));
-      });
-      */
-
-
-
       // Timesheets
-      timesheetsRef = firebaseApp.database().ref('dev/timesheets/' + firebaseApp.auth().currentUser.uid);
+      const path = 'dev/timesheets/' + firebaseApp.auth().currentUser.uid;
+      timesheetsRef = firebaseApp.database().ref(path);
+      store.dispatch(listenToTimesheets(path));
       /*
       timesheetsRef.on('child_added', (snapshot) => {
         store.dispatch(startFetchingTimesheets());

@@ -103,10 +103,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
+  console.log('state.firebaseReducer', state.firebaseReducer);
   return {
     addTimesheet: state.searchedTimesheets.addTimesheet,
-    timesheets: state.searchedTimesheets.timesheets,
-    fetchingTimesheets: state.searchedTimesheets.fetchingTimesheets
+    timesheets: state.firebaseReducer.timesheets.items,
+    fetchingTimesheets: state.firebaseReducer.timesheets.inProgress
+    //timesheets: state.searchedTimesheets.timesheets,
+    //fetchingTimesheets: state.searchedTimesheets.fetchingTimesheets
+
   };
 }
 
