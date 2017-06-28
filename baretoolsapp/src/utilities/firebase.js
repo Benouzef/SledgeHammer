@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import { addCustomerSuccess, removeCustomerSuccess, startFetching, doneFetching } from '../actions/customers';
+import { listenToCustomers, addCustomerSuccess, removeCustomerSuccess, startFetching, doneFetching } from '../actions/customers';
 import { addTimesheetSuccess, removeTimesheetSuccess, startFetchingTimesheets, doneFetchingTimesheets } from '../actions/timesheets';
 import { signInWithGoogleAsync } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
@@ -23,7 +23,9 @@ export function syncFirebase(store, accessToken) {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // Customers
-      customersRef.on('child_added', (snapshot) => {
+      store.dispatch(listenToCustomers());
+
+      /*customersRef.on('child_added', (snapshot) => {
         store.dispatch(startFetching());
         store.dispatch(addCustomerSuccess(snapshot.val()));
         store.dispatch(doneFetching());
@@ -32,10 +34,13 @@ export function syncFirebase(store, accessToken) {
       customersRef.on('child_removed', (snapshot) => {
         store.dispatch(removeCustomerSuccess(snapshot.val().id));
       });
+      */
 
-      timesheetsRef = firebaseApp.database().ref('dev/timesheets/' + firebaseApp.auth().currentUser.uid);
+
 
       // Timesheets
+      timesheetsRef = firebaseApp.database().ref('dev/timesheets/' + firebaseApp.auth().currentUser.uid);
+      /*
       timesheetsRef.on('child_added', (snapshot) => {
         store.dispatch(startFetchingTimesheets());
         store.dispatch(addTimesheetSuccess(snapshot.val()));
@@ -43,13 +48,14 @@ export function syncFirebase(store, accessToken) {
       });
 
       timesheetsRef.on('child_changed', (snapshot) => {
-        console.log('snapshot.val()'); 
+        console.log('snapshot.val()');
         console.log(snapshot.val());
       });
 
       timesheetsRef.on('child_removed', (snapshot) => {
         store.dispatch(removeTimesheetSuccess(snapshot.val().id));
       });
+      */
 
     } else {
       // No user is signed in.

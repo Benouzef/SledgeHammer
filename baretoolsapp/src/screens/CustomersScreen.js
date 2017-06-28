@@ -19,6 +19,10 @@ class CustomersScreen extends Component {
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
+  componentWillReceiveProps(NextProps) {
+    console.log('componentWillReceiveProps', NextProps);
+  }
+
   renderRow(rowData) {
     var imgSource = {
       uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
@@ -43,26 +47,23 @@ class CustomersScreen extends Component {
   render() {
 
     let isReady = false;
+    let itemsForTheList = [];
     if (this.props.fetching === false) isReady = true;
     if (this.props.fetching) isReady = false;
 
     if (isReady) {
-      items = this.props.customers
+      itemsForTheList = this.props.customers
       readonlyMessage = null;
     } else {
-      items = []
+      itemsForTheList = []
       readonlyMessage = <Text style={styles.loading}>Loading...</Text>
     }
 
     return (
       <ScrollView>
         {readonlyMessage}
-
-
-
-
           <ListView contentContainerStyle={styles.list}
-          dataSource={this.dataSource.cloneWithRows(items)}
+          dataSource={this.dataSource.cloneWithRows(itemsForTheList)}
           enableEmptySections={true}
           renderRow={this.renderRow.bind(this)}
           />
@@ -117,10 +118,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
+  console.log('state.firebaseReducer');
+  console.log(state.firebaseReducer);
   return {
-    addCustomer: state.searchedCustomers.addCustomer,
-    customers: state.searchedCustomers.customers,
-    fetching: state.searchedCustomers.fetching
+    customers: state.firebaseReducer.customers.items,
+    fetching: state.firebaseReducer.customers.inProgress
   };
 }
 
