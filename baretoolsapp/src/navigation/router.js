@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { ActionCreators } from '../actions';
 
 // TODO: Delete CustomersStack
+/*
 export const CustomersStack = StackNavigator({
   Customers: {
     screen: CustomersScreen,
@@ -31,13 +32,13 @@ export const CustomersStack = StackNavigator({
   CustomerDetail: {
     screen: CustomerDetailScreen,
     navigationOptions: {
-      headerTitle: 'Customer detail',
       tabBarLabel: 'Customers',
       tabBarIcon: ({tintColor}) => <Icon name='group' size={20} color={tintColor} />,
     },
   },
 });
-
+*/
+/*
 export const TimesheetsStack = StackNavigator({
   Timesheets: {
     screen: TimesheetsScreen,
@@ -56,7 +57,7 @@ export const TimesheetsStack = StackNavigator({
     },
   },
 });
-
+*/
 export const MissionsStack = StackNavigator({
   Missions: {
     screen: MissionsScreen,
@@ -96,8 +97,10 @@ export const ProfileStack = StackNavigator({
 });
 
 const tabBarConfiguration = {
+  headerMode: 'screen',
   tabBarPosition: 'bottom',
   swipeEnabled: true,
+  animationEnabled: true,
   tabBarOptions: {
     activeTintColor: '#e91e63',
     inactiveTintColor: '#ffffff',
@@ -116,12 +119,30 @@ const tabBarConfiguration = {
 };
 
 
-export const Tabs = TabNavigator({
-    Timesheets: {
+export const AllTabs = TabNavigator({
+    /*Timesheets: {
       screen: TimesheetsStack,
-    },
+    },*/
+    /*
     Customers: {
       screen: CustomersStack,
+    },
+    */
+    Timesheets: {
+      screen: TimesheetsScreen,
+      navigationOptions: {
+        tabBarLabel: 'Timesheets',
+        headerTitle: 'Timesheets',
+        tabBarIcon: ({tintColor}) => <Icon name='calendar' size={20} color={tintColor} />,
+      },
+    },
+    Customers: {
+      screen: CustomersScreen,
+      navigationOptions: {
+        headerTitle: 'Customers',
+        tabBarLabel: 'Customers',
+        tabBarIcon: ({tintColor}) => <Icon name='group' size={20} color={tintColor} />,
+      },
     },
     //TODO : Reactivate Profile Stack for user profile information
     /*Profile: {
@@ -130,7 +151,7 @@ export const Tabs = TabNavigator({
     About: {
       screen: AboutScreen,
       navigationOptions: {
-        headerTitle: 'About',
+        header: null,
         tabBarLabel: 'About',
         tabBarIcon: ({tintColor}) => <Icon name='info-circle' size={20} color={tintColor} />,
       },
@@ -138,6 +159,30 @@ export const Tabs = TabNavigator({
   },
   tabBarConfiguration
 );
+
+export const Tabs = StackNavigator({
+    Root: {
+      screen: AllTabs,
+    },
+    CustomerDetail: {
+      screen: CustomerDetailScreen,
+      navigationOptions: {
+        tabBarLabel: 'Customers',
+        tabBarIcon: ({tintColor}) => <Icon name='group' size={20} color={tintColor} />,
+      },
+    },
+    TimesheetDetail: {
+      screen: TimesheetDetailScreen,
+      navigationOptions: {
+        tabBarLabel: 'Timesheets',
+        tabBarIcon: ({tintColor}) => <Icon name='calendar' size={20} color={tintColor} />,
+      },
+    },
+  },
+  tabBarConfiguration
+);
+
+
 
 
 function mapDispatchToProps(dispatch) {

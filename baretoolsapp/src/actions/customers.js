@@ -24,7 +24,8 @@ export function addCustomer(name, year, month, token) {
     const customer = {
       id,
       name: name,
-      time: new Date().getTime()
+      time: new Date().getTime(),
+      url: 'fake'
     }
 
     customerRef.set(customer);

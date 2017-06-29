@@ -16,7 +16,7 @@ class NavigationTextHeader extends Component {
 
   render() {
       return(
-        <TextInput placeholder='Add a customer' onSubmitEditing={(event) => this.handleChange(event.nativeEvent.text)}/>
+        <TextInput placeholder='Add a customer' onSubmitEditing={(event) => this.handleChange(event.nativeEvent.text)} />
       )
   }
 }

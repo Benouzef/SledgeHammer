@@ -20,17 +20,16 @@ class CustomersScreen extends Component {
   }
 
   renderRow(rowData) {
-    var imgSource = {
-      uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
-    };
-
     return (
-      <TouchableHighlight onPress={() => this.props.navigation.navigate('CustomerDetail')} underlayColor='rgba(0,0,0,0)'>
-
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('CustomerDetail', { customerDetail:  rowData })} underlayColor='rgba(0,0,0,0)'>
         <View>
           <View style={styles.row}>
 
-            <Image style={styles.thumb} source={imgSource} />
+            <WebView
+              source={{uri: `https://logo.clearbit.com/${rowData.url}`}}
+              style={styles.thumb}
+            />
+
             <Text style={styles.text}>
               {rowData.name}
             </Text>
@@ -82,8 +81,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 5,
     margin: 10,
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 170,
     backgroundColor: '#F6F6F6',
     alignItems: 'center',
     borderWidth: 1,
@@ -91,11 +90,11 @@ const styles = StyleSheet.create({
     borderColor: '#CCC'
   },
   thumb: {
-    width: 64,
-    height: 64
+    width: 128,
+    height: 128
   },
   text: {
-    flex: 1,
+    flex: 0.25,
     marginTop: 5,
     fontWeight: 'bold'
   },
