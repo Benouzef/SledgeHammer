@@ -20,6 +20,7 @@ class CustomersScreen extends Component {
   }
 
   renderRow(rowData) {
+    console.log('rowData', rowData);
     return (
       <TouchableHighlight onPress={() => this.props.navigation.navigate('CustomerDetail', { customerDetail:  rowData })} underlayColor='rgba(0,0,0,0)'>
         <View>

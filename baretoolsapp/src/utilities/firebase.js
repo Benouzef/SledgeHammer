@@ -12,9 +12,12 @@ export const firebaseApp = firebase.initializeApp({
 })
 
 export const customersRef = firebaseApp.database().ref('customers');
+export let customersPath = 'customers';
 const connectedRef = firebaseApp.database().ref('.info/connected');
 
+
 export let timesheetsRef = firebaseApp.database().ref('dev/timesheets');
+
 
 export function syncFirebase(store, accessToken) {
   // sign in using google access token provided in app init
