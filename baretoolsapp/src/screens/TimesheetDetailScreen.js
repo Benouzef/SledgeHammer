@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, ListView } from 'react-native';
-
+import DatePickerAndTextInput from '../components/DatePickerAndTextInput';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
@@ -22,17 +22,23 @@ class TimesheetDetailScreen extends React.Component {
   }
 
   renderRow(rowData, sectionID, rowID) {
-
+    const minDate = '20170601';
+    const maxDate = '20170630';
     return (
       <View>
-        <View style={styles.row}>
-          <Text style={styles.text}>
-            {rowID} / {rowData.amount}
-          </Text>
-        </View>
+        <Text style={styles.text}>
+          {rowID} / {rowData.amount}
+
+        </Text>
+        <DatePickerAndTextInput date={rowID} minDate={minDate} maxDate={maxDate} amount={rowData.amount} />
       </View>
     );
   }
+
+  test() {
+    console.log('test', this.state);
+  }
+
 
   render() {
     const { params } = this.props.navigation.state;
@@ -52,6 +58,8 @@ class TimesheetDetailScreen extends React.Component {
         enableEmptySections={true}
         renderRow={this.renderRow.bind(this)}
         />
+
+        <Button title="Save" onPress={() => this.test()}/>
 
       </ScrollView>
     );
