@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput, Button } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,6 +14,10 @@ class DatePickerAndTextInput extends React.Component {
       maxDate: this.props.maxDate,
       amount: this.props.amount
     };
+  }
+
+  test() {
+    console.log('state', state);
   }
 
   render() {
@@ -48,6 +52,8 @@ class DatePickerAndTextInput extends React.Component {
             value={this.state.amount.toString()}
             onChangeText={(amount) => this.setState({amount})}
           />
+          <Button title="Save" onPress={() => this.test()}/>
+          <Button title="Delete" onPress={() => this.test()}/>
         </View>
       )
   }

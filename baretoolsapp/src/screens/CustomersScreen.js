@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, Button, TouchableHighlight, View, ListView, TextInput, Image, WebView } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, Button, TouchableHighlight, View, ListView, TextInput, Image, WebView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -43,6 +43,7 @@ class CustomersScreen extends Component {
   render() {
 
     let isReady = false;
+    let showActivityIndicator = false;
     let itemsForTheList = [];
     if (this.props.fetching === false) isReady = true;
     if (this.props.fetching) isReady = false;
@@ -50,19 +51,28 @@ class CustomersScreen extends Component {
     if (isReady) {
       itemsForTheList = this.props.customers
       readonlyMessage = null;
+      let showActivityIndicator = false;
     } else {
       itemsForTheList = []
       readonlyMessage = <Text style={styles.loading}>Loading...</Text>
+      let showActivityIndicator = true;
     }
 
     return (
       <ScrollView>
-        {readonlyMessage}
+          {readonlyMessage}
           <ListView contentContainerStyle={styles.list}
           dataSource={this.dataSource.cloneWithRows(itemsForTheList)}
           enableEmptySections={true}
           renderRow={this.renderRow.bind(this)}
           />
+          {showActivityIndicator && (
+            <ActivityIndicator
+              style={{ height: 80 }}
+              color="#C00"
+              size="large"
+            />
+          )}
       </ScrollView>
     );
   }
