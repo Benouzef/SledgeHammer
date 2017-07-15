@@ -16,7 +16,7 @@ class NavigationTextHeader extends Component {
 
   render() {
       return(
-        <TextInput placeholder='Add a customer' onSubmitEditing={(event) => this.handleChange(event.nativeEvent.text)} />
+        <TextInput style={{marginRight: 22, width: 150}} autoCapitalize='characters' placeholder='Add a customer' onSubmitEditing={(event) => this.handleChange(event.nativeEvent.text)} />
       )
   }
 }

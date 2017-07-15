@@ -26,7 +26,7 @@ export function addCustomer(name, year, month, token) {
       id,
       name: name,
       creationTime: datetime,
-      updateTime: dateime,
+      updateTime: datetime,
       url: 'fake'
     }
 

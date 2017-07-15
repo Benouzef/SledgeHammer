@@ -96,7 +96,7 @@ class CustomerDetailScreen extends React.Component {
         />
         <Text>MY MISSION</Text>
         <TextInput
-          autoCapitalize='words'
+          autoCapitalize='sentences'
           maxLenght={50}
           placeholder='Role'
           defaultValue={this.state.role}
