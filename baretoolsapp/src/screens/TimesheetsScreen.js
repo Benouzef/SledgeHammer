@@ -40,7 +40,7 @@ class TimesheetsScreen extends Component {
       readonlyMessage = null;
     } else {
       items = [];
-      readonlyMessage = <Text style={styles.loading}>Loading...</Text>
+      readonlyMessage = <View><Image style={{width:150, height:150, marginTop:50}} source={{uri: 'https://logo.clearbit.com/indeptive.com'}}/><Text style={styles.loading}>Loading...</Text></View>
     }
 
     return (
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   loading: {
-    backgroundColor: '#FFFFFF',
     color: '#000000',
     textAlign: 'center',
     marginTop: 5,

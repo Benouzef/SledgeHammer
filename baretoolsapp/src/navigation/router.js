@@ -132,14 +132,14 @@ export const AllTabs = TabNavigator({
       screen: TimesheetsScreen,
       navigationOptions: {
         tabBarLabel: 'Timesheets',
-        headerTitle: 'Timesheets',
+        header: null, //Title: 'Timesheets',
         tabBarIcon: ({tintColor}) => <Icon name='calendar' size={20} color={tintColor} />,
       },
     },
     Customers: {
       screen: CustomersScreen,
       navigationOptions: {
-        headerTitle: 'Customers',
+        header: null,  //Title: 'Customers',
         tabBarLabel: 'Customers',
         tabBarIcon: ({tintColor}) => <Icon name='group' size={20} color={tintColor} />,
       },

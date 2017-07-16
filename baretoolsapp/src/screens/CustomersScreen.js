@@ -73,6 +73,7 @@ class CustomersScreen extends Component {
               size="large"
             />
           )}
+          <NavigationTextHeader token={this.props.screenProps} />
       </ScrollView>
     );
   }
