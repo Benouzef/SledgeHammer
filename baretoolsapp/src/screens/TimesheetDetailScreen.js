@@ -7,6 +7,9 @@ import { ActionCreators } from '../actions';
 
 
 class TimesheetDetailScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+      headerTitle: `${navigation.state.params.customerName} - ${navigation.state.params.month}/${navigation.state.params.year}`,
+      });
 
   constructor(props) {
     super(props);
@@ -25,13 +28,7 @@ class TimesheetDetailScreen extends React.Component {
     const minDate = '20170601';
     const maxDate = '20170630';
     return (
-      <View>
-        <Text style={styles.text}>
-          {rowID} / {rowData.amount}
-
-        </Text>
-        <DatePickerAndTextInput date={rowID} minDate={minDate} maxDate={maxDate} amount={rowData.amount} />
-      </View>
+      <DatePickerAndTextInput date={rowID} minDate={minDate} maxDate={maxDate} amount={rowData.amount} />
     );
   }
 
@@ -43,23 +40,34 @@ class TimesheetDetailScreen extends React.Component {
   render() {
     const { params } = this.props.navigation.state;
 
+    let message = '';
+    console.log('params.missionType', params.missionType);
+    if (params.missionType === '1-Full time') {
+      message = 'You are working on a full-time mission. Please enter only time or days you WERE NOT working (except weekends & public holidays).';
+    } else {
+      message = 'You are working on a part-time mission. Please enter only time or days you WERE working.';
+    }
+
+
     return (
       <ScrollView
-        style={styles.container}
+      style={{flex: 1, flexDirection: 'column'}}
+      contentContainerStyle={{justifyContent: 'flex-start', alignItems: 'flex-start'}}
         >
 
-        <Text>Timesheet Detail Screen</Text>
-        <Text>{params.timesheetDetail.lastStatus}</Text>
-        <Text>{params.missionType}</Text>
+        <Text>{message}</Text>
+
 
         <Button title="Add" onPress={() => this.addDayToCurrentTimesheet(params.customerId, params.year, params.month, 21, 1, params.token)}/>
+
         <ListView contentContainerStyle={styles.list}
         dataSource={this.dataSource.cloneWithRows(params.timesheetDetail.enteredData)}
         enableEmptySections={true}
         renderRow={this.renderRow.bind(this)}
         />
 
-        <Button title="Save" onPress={() => this.test()}/>
+        <Text>Status for current timesheet is: {params.timesheetDetail.lastStatus}</Text>
+        <Button title="Save to your drive" onPress={() => this.test()}/>
 
       </ScrollView>
     );
@@ -68,43 +76,14 @@ class TimesheetDetailScreen extends React.Component {
 
 const styles = StyleSheet.create({
   list: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    //flexWrap: 'wrap'
   },
   container: {
     flex: 1,
     paddingTop: 15,
   },
-  row: {
-    justifyContent: 'center',
-    padding: 5,
-    margin: 10,
-    width: 100,
-    height: 100,
-    backgroundColor: '#F6F6F6',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: '#CCC'
-  },
-  thumb: {
-    width: 64,
-    height: 64
-  },
-  text: {
-    flex: 1,
-    marginTop: 5,
-    fontWeight: 'bold'
-  },
-  loading: {
-    backgroundColor: '#000000',
-    color: '#FFFFFF',
-    textAlign: 'center',
-    marginBottom: 10,
-    paddingTop: 5,
-    paddingBottom: 5
-  }
 });
 
 function mapDispatchToProps(dispatch) {

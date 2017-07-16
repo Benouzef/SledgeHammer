@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Button } from 'react-native';
+import { StyleSheet, View, TextInput, Button, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class DatePickerAndTextInput extends React.Component {
   constructor(props) {
@@ -22,9 +23,9 @@ class DatePickerAndTextInput extends React.Component {
 
   render() {
       return(
-        <View>
+        <View style={{flexDirection: 'row'}}>
           <DatePicker
-            style={{width: 200}}
+            style={{width: 160, marginLeft: 20, marginRight: 10 }}
             date={this.state.date}
             mode="date"
             placeholder="select date"
@@ -51,9 +52,36 @@ class DatePickerAndTextInput extends React.Component {
             keyboardType='numeric'
             value={this.state.amount.toString()}
             onChangeText={(amount) => this.setState({amount})}
+            style={{width:50, marginLeft: 10, marginRight: 10 }}
           />
-          <Button title="Save" onPress={() => this.test()}/>
-          <Button title="Delete" onPress={() => this.test()}/>
+
+          <TouchableOpacity
+            style={{
+              borderRadius: 5,
+              borderWidth: 0,
+              marginRight: 10,
+              marginTop: 5,
+              marginBottom: 5
+            }}
+            onPress={() => this.test()}
+          >
+            <Icon name='check-circle-o' size={24} color='#28a9e1' style={{padding: 6}} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              //backgroundColor: '#28a9e1',
+              borderRadius: 5,
+              borderWidth: 0,
+              //borderColor: '#000033',
+              marginRight: 10,
+              marginTop: 5,
+              marginBottom: 5
+            }}
+            onPress={() => this.test()}
+          >
+            <Icon name='trash-o' size={24} color='#f54257' style={{padding: 6}}  />
+          </TouchableOpacity>
         </View>
       )
   }

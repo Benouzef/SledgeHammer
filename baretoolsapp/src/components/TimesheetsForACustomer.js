@@ -62,6 +62,7 @@ class TimesheetsForACustomer extends Component {
         month: rowID,
         year: this.props.year,
         customerId: this.props.customerId,
+        customerName: this.props.customerName,
         token: this.props.token
       })} underlayColor='rgba(0,0,0,0)'>
 
