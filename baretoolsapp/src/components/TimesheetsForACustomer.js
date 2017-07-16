@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableHighlight, View, ListView, Image, Button } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableHighlight, View, ListView, Image, Button, TouchableOpacity } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -82,16 +82,32 @@ class TimesheetsForACustomer extends Component {
 
   render() {
     return (
-        <View>
+        <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.customertext}>{this.props.customerName}</Text>
-            <Button style={styles.addButton} title="Add" onPress={() => this.addTimesheetToCurrentCustomer()}/>
+
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#28a9e1',
+                borderRadius: 5,
+                borderWidth: 1,
+                borderColor: '#000033',
+                marginRight: 10,
+                marginTop: 5,
+                marginBottom: 5
+              }}
+              onPress={() => this.addTimesheetToCurrentCustomer()}
+            >
+              <Text style={{color: 'white', padding: 5}}>ADD</Text>
+            </TouchableOpacity>
           </View>
-          <ListView contentContainerStyle={styles.list}
-          dataSource={this.dataSource.cloneWithRows(this.props.dataSource[this.props.year])}
-          enableEmptySections={true}
-          renderRow={this.renderRow.bind(this)}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <ListView contentContainerStyle={styles.list}
+            dataSource={this.dataSource.cloneWithRows(this.props.dataSource[this.props.year])}
+            enableEmptySections={true}
+            renderRow={this.renderRow.bind(this)}
+            />
+          </View>
         </View>
     );
   }
@@ -130,11 +146,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'left'
   },
-  addButton: {
-    flex: 0.5,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
+
   headertext: {
     flex: 0.5,
     textAlign: 'center'

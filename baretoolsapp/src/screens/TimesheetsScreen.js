@@ -36,17 +36,19 @@ class TimesheetsScreen extends Component {
     if (this.props.fetchingTimesheets) isReady = false;
 
     if (isReady) {
-      items = this.props.timesheets
+      items = this.props.timesheets;
       readonlyMessage = null;
     } else {
-      items = []
+      items = [];
       readonlyMessage = <Text style={styles.loading}>Loading...</Text>
     }
 
     return (
-      <ScrollView>
-        {readonlyMessage}
+      <ScrollView
+        style={{flex: 1, flexDirection: 'column'}}
+        contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
 
+          {readonlyMessage}
           <ListView contentContainerStyle={styles.list}
           dataSource={this.dataSource.cloneWithRows(items)}
           enableEmptySections={true}
@@ -60,7 +62,7 @@ class TimesheetsScreen extends Component {
 const styles = StyleSheet.create({
   list: {
     justifyContent: 'flex-start',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap'
   },
   container: {
@@ -89,10 +91,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   loading: {
-    backgroundColor: '#000000',
-    color: '#FFFFFF',
+    backgroundColor: '#FFFFFF',
+    color: '#000000',
     textAlign: 'center',
-    marginBottom: 10,
+    marginTop: 5,
     paddingTop: 5,
     paddingBottom: 5
   }

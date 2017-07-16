@@ -102,18 +102,18 @@ const tabBarConfiguration = {
   swipeEnabled: true,
   animationEnabled: true,
   tabBarOptions: {
-    activeTintColor: '#e91e63',
+    activeTintColor: '#ff6e00',
     inactiveTintColor: '#ffffff',
     showLabel: true,
     showIcon: true,
     style: {
-      backgroundColor: 'blue',
+      backgroundColor: '#3a3b4f',
     },
     labelStyle: {
       fontSize: 9,
     },
     indicatorStyle: {
-      backgroundColor: 'red',
+      backgroundColor: '#ff6e00',
     },
   },
 };
@@ -179,7 +179,10 @@ export const Tabs = StackNavigator({
       },
     },
   },
-  tabBarConfiguration
+  {
+    navigationOptions: { headerTintColor: '#3a3b4f' }
+  },
+  tabBarConfiguration,
 );
 
 
