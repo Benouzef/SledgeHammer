@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, Button, Picker, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, Button, Picker, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
@@ -20,8 +20,7 @@ class CustomerDetailScreen extends React.Component {
       role:this.props.navigation.state.params.customerDetail.role,
       rate:this.props.navigation.state.params.customerDetail.rate,
       rateUnit:this.props.navigation.state.params.customerDetail.rateUnit,
-      missionType:this.props.navigation.state.params.customerDetail.missionType,
-      isSaving: false
+      missionType:this.props.navigation.state.params.customerDetail.missionType
     };
   }
 
@@ -43,19 +42,12 @@ class CustomerDetailScreen extends React.Component {
       creationTime: this.props.navigation.state.params.customerDetail.creationTime
     };
 
-    this.setState({isSaving: true});
-
-    console.log('customer', customer);
     this.props.updateCustomer(customer);
-
-    this.setState({isSaving: false});
   }
 
   render() {
     const { params } = this.props.navigation.state;
     let name = '';
-    let showActivityIndicator = false;
-    showActivityIndicator = this.state.isSaving;
     if (params.customerDetail.name != '') name = params.customerDetail.name;
     return (
       <ScrollView
@@ -127,15 +119,7 @@ class CustomerDetailScreen extends React.Component {
           <Picker.Item label="Full Time" value="1-Full Time" />
           <Picker.Item label="Part Time" value="2-Part Time" />
         </Picker>
-        <Button onPress={() => this.saveCustomerDetails()} title='Save' disabled={this.state.isSaving}/>
-        <Button title='Save2' disabled={true}/>
-        {showActivityIndicator && (
-        <ActivityIndicator
-          style={{ height: 80 }}
-          color="#C00"
-          size="large"
-        />)
-        }
+        <Button onPress={() => this.saveCustomerDetails()} color='#28a9e1' title='Save' disabled={this.state.isSaving}/>
       </ScrollView>
     );
   }
