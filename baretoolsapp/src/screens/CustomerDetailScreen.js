@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, Button, Picker } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, Button, Picker, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
@@ -103,20 +103,24 @@ class CustomerDetailScreen extends React.Component {
           editable={true}
           onChangeText={(role) => this.setState({role})}
         />
-        <TextInput
-          maxLenght={50}
-          keyboardType='numeric'
-          placeholder='Rate'
-          defaultValue={this.state.rate}
-          editable={true}
-          onChangeText={(rate) => this.setState({rate})}
-        />
-        <Picker
-          selectedValue={this.state.rateUnit}
-          onValueChange={(itemValue, itemIndex) => this.setState({rateUnit: itemValue})}>
-          <Picker.Item label="Euros (€)" value="Euros" />
-          <Picker.Item label="Dollars ($)" value="Dollars" />
-        </Picker>
+        <View style={{flexDirection: 'row'}}>
+          <TextInput
+            maxLenght={50}
+            keyboardType='numeric'
+            placeholder='Rate'
+            defaultValue={this.state.rate}
+            editable={true}
+            style={{flex: 0.5}}
+            onChangeText={(rate) => this.setState({rate})}
+          />
+          <Picker
+            selectedValue={this.state.rateUnit}
+            onValueChange={(itemValue, itemIndex) => this.setState({rateUnit: itemValue})}
+            style={{flex: 0.5}}>
+            <Picker.Item label="Euros (€)" value="Euros" />
+            <Picker.Item label="Dollars ($)" value="Dollars" />
+          </Picker>
+        </View>
         <Picker
           selectedValue={this.state.missionType}
           onValueChange={(itemValue, itemIndex) => this.setState({missionType: itemValue})}>
@@ -141,6 +145,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
+    flexDirection: 'column'
   },
 });
 
