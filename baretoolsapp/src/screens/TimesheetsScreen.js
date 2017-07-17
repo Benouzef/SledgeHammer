@@ -104,7 +104,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state.firebaseReducer', state.firebaseReducer);
   return {
     addTimesheet: state.searchedTimesheets.addTimesheet,
     timesheets: state.firebaseReducer.timesheets.items,

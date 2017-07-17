@@ -18,7 +18,7 @@ class DatePickerAndTextInput extends React.Component {
   }
 
   test() {
-    console.log('state', state);
+    console.log('state');
   }
 
   render() {
@@ -92,7 +92,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state', state);
   return {
     addCustomer: state.firebaseReducer.addCustomer,
   };

@@ -39,13 +39,10 @@ export function updateItem(metaType: MetaType, update: Object, path: string) {
 }
 
 export function updateItems(metaType: MetaType, updates: Array<Object>, paths: Array<string>) {
-  console.log('updates', updates);
-  console.log('paths', paths);
   return (dispatch: UpdateItemsActions => void) => {
     dispatch(updateRequested(metaType))
     const promises = []
     updates.forEach((update, index) => {
-      console.log('update', update);
       const path = paths[index];
       const ref = firebaseApp.database().ref(path);
       const promise = ref.update(update);
@@ -209,8 +206,6 @@ export function listenToPath(metaType: MetaType, path: string) {
       })
     })
     .catch(error => {
-      console.log('error');
-      console.log(error);
     });
   }
 }

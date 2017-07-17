@@ -32,25 +32,9 @@ export function syncFirebase(store, accessToken) {
       const path = 'dev/timesheets/' + firebaseApp.auth().currentUser.uid;
       timesheetsRef = firebaseApp.database().ref(path);
       store.dispatch(listenToTimesheets(path));
-      /*
-      timesheetsRef.on('child_added', (snapshot) => {
-        store.dispatch(startFetchingTimesheets());
-        store.dispatch(addTimesheetSuccess(snapshot.val()));
-        store.dispatch(doneFetchingTimesheets());
-      });
-
-      timesheetsRef.on('child_changed', (snapshot) => {
-        console.log('snapshot.val()');
-        console.log(snapshot.val());
-      });
-
-      timesheetsRef.on('child_removed', (snapshot) => {
-        store.dispatch(removeTimesheetSuccess(snapshot.val().id));
-      });
-      */
-
     } else {
       // No user is signed in.
+      console.log('no user is signed in');
     }
   });
 }

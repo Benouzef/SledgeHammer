@@ -25,9 +25,7 @@ class CustomerDetailScreen extends React.Component {
   }
 
   saveCustomerDetails() {
-    console.log('Company name', this.state.name);
-    console.log('Url', this.state.url);
-    console.log('this.props.navigation.state.params', this.props.navigation.state.params);
+    
     const customer = {
       id: this.props.navigation.state.params.customerDetail.id,
       name: this.state.name,
