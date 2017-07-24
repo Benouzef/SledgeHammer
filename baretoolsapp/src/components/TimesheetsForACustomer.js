@@ -17,8 +17,6 @@ class TimesheetsForACustomer extends Component {
   }
 
   addTimesheetToCurrentCustomer() {
-
-
     let month = 0;
     if (Number.parseInt(this.state.maxMonth) <=0) {
       month = new Date().getMonth() + 1;
@@ -28,32 +26,17 @@ class TimesheetsForACustomer extends Component {
       month = Number.parseInt(this.state.maxMonth);
     }
 
-    console.log('this.state.maxMonth');
-    console.log(this.state.maxMonth);
-
-    console.log('month');
-    console.log(month);
-
     if (month <= 9) month = '0' + month;
 
-    console.log('month');
-    console.log(month);
-
-    this.props.addTimesheet(this.props.customerId, this.props.year, month, this.props.token);
+    this.props.addTimesheet(this.props.customerId, this.props.customerName, this.props.year, month, this.props.token);
   }
 
   renderRow(rowData, sectionID, rowID) {
-
-    var imgSource = {
-      uri: 'http://www.execavenue.com/2016/wp-content/uploads/logo-finalcad-230x230.jpg',
-    };
-
     if (rowID > this.state.maxMonth) {
       this.setState(
         {maxMonth: rowID}
       );
     }
-
 
     return (
       <TouchableHighlight onPress={() => this.props.navigation.navigate('TimesheetDetail',
@@ -63,7 +46,8 @@ class TimesheetsForACustomer extends Component {
         year: this.props.year,
         customerId: this.props.customerId,
         customerName: this.props.customerName,
-        token: this.props.token
+        token: this.props.token,
+        fakeCount: Object.keys(this.props.timesheets).length,
       })} underlayColor='rgba(0,0,0,0)'>
 
         <View style={styles.row}>
@@ -82,6 +66,7 @@ class TimesheetsForACustomer extends Component {
   }
 
   render() {
+
     return (
         <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
           <View style={{flexDirection: 'row'}}>

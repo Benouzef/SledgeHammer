@@ -18,7 +18,12 @@ class DatePickerAndTextInput extends React.Component {
   }
 
   test() {
+    this.props.onDelete('coucou');
     console.log('state');
+  }
+
+  save() {
+    this.props.onSave(this.state);
   }
 
   render() {
@@ -63,7 +68,7 @@ class DatePickerAndTextInput extends React.Component {
               marginTop: 5,
               marginBottom: 5
             }}
-            onPress={() => this.test()}
+            onPress={() => this.save()}
           >
             <Icon name='check-circle-o' size={24} color='#28a9e1' style={{padding: 6}} />
           </TouchableOpacity>

@@ -25,7 +25,7 @@ class CustomerDetailScreen extends React.Component {
   }
 
   saveCustomerDetails() {
-    
+
     const customer = {
       id: this.props.navigation.state.params.customerDetail.id,
       name: this.state.name,
@@ -44,14 +44,20 @@ class CustomerDetailScreen extends React.Component {
   }
 
   render() {
+    console.log('state.firebaseReducer.customers.items', this.props.customers);
+
     const { params } = this.props.navigation.state;
     let name = '';
     if (params.customerDetail.name != '') name = params.customerDetail.name;
+
+    const name2 = this.props.customers[params.id].name;
+    console.log('name2', name2);
+
     return (
       <ScrollView
         style={styles.container}
         >
-        <Text>CUSTOMER DETAILS</Text>
+        <Text>CUSTOMER DETAILS `${name2}`</Text>
         <TextInput
           autoCapitalize='characters'
           maxLenght={50}
@@ -84,7 +90,7 @@ class CustomerDetailScreen extends React.Component {
           editable={true}
           onChangeText={(contactEmail) => this.setState({contactEmail})}
         />
-        <Text>MY MISSION</Text>
+        <Text>MY MISSION $name2</Text>
         <TextInput
           autoCapitalize='sentences'
           maxLenght={50}
@@ -138,6 +144,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     updateCustomer: state.firebaseReducer.updateCustomer,
+    customers: state.firebaseReducer.customers.items
   };
 }
 

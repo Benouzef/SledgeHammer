@@ -3,7 +3,9 @@ import GoogleSignIn from 'react-native-google-sign-in';
 const url = 'https://www.googleapis.com/drive/v3';
 const uploadUrl = 'https://www.googleapis.com/upload/drive/v3';
 const baseSpreadSheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets';
+const fileUrl = 'https://www.googleapis.com/drive/v3/files/';
 const boundaryString = 'indeptive_com_bndry'; // can be anything unique, needed for multipart upload https://developers.google.com/drive/v3/web/multipart-upload
+const templateFileForTimesheets = '1U7QxwfKcMl5JjVY5kP7x44cefXseojZC3owys8k3Vts';
 
 let apiToken = null;
 
@@ -53,6 +55,8 @@ function get(qParams, withFields) {
 }
 
 function parseAndHandleErrors(response) {
+  //console.log('response', response);
+
   if (response.ok) {
     return response.json()
   }
@@ -109,6 +113,32 @@ function createDirectory(directoryName) {
   .then(parseAndHandleErrors);
 }
 
+export function copySpreadSheet(folderId) {
+  const headers = new Headers()
+  headers.append('Authorization', `Bearer ${apiToken}`)
+  const options =  {
+    method: 'POST',
+    headers,
+  }
+
+  return fetch(`${fileUrl}${templateFileForTimesheets}/copy`, {
+    ...options
+  })
+  .then(parseAndHandleErrors)
+  .then((body) => {
+    if (body && body.id) {
+        var result = [];
+        result.push(folderId);
+        result.push(body.id);
+        return result;
+    }
+    else {
+        return null;
+    }
+  }
+  );
+}
+
 export function createSpreadSheet(folderId) {
   const options = configurePostOptions(0, false);
   return fetch(`${baseSpreadSheetUrl}`, {
@@ -142,7 +172,10 @@ export function enterDataInSpreadSheet(id, range, values) {
     ...options,
     body
   })
-  .then(parseAndHandleErrors);
+  .then(parseAndHandleErrors)
+  .then(
+    () => { return id; }
+  );
 }
 
 export function moveSpreadSheet(id, name, directoryId) {

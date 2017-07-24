@@ -1,8 +1,8 @@
 import * as types from '../utilities/types';
 import { timesheetsRef } from '../utilities/firebase';
-import { signInWithGoogleAsync, setApiToken, createSpreadSheet, moveSpreadSheet, getIndeptiveFolder, enterDataInSpreadSheet } from '../utilities/GoogleDrive';
+import { signInWithGoogleAsync, setApiToken, copySpreadSheet, moveSpreadSheet, getIndeptiveFolder, enterDataInSpreadSheet } from '../utilities/GoogleDrive';
 import GoogleSignIn from 'react-native-google-sign-in';
-import { listenToPath } from './firebase';
+import { listenChildAdded, listenChildChanged, listenToPath, updateItem } from './firebase';
 import type {
   MetaType, UpdateItemsActions, RemoveItemActions, ListenToPathActions
 } from '../utilities/types';
@@ -13,59 +13,53 @@ export function listenToTimesheets(path) {
   return listenToPath(metaTypes.timesheets, path);
 }
 
-export function addDayToCurrentTimesheet(customerId, year, month, day, amount, token) {
-  const concatDay = year + '' + month + '' + day;
-  console.log('concatDay');
-  console.log(concatDay);
-  const timesheetRef = timesheetsRef.child(customerId).child(year).child(month).child('enteredData').child(concatDay);
+export function addDayToCurrentTimesheet(customerId, year, month, day, amount, token, spreadsheetId) {
 
-  timesheetRef.set({
-    amount: amount,
-  })
+  return (dispatch: ListenToPathActions => void, getState: () => Object) => {
+    const concatDay = year + '' + month + '' + day;
+    const timesheetRef = timesheetsRef.child(customerId).child(year).child(month).child('enteredData').child(concatDay);
 
-  setApiToken(token);
+    const timesheet = {
+      amount: amount,
+    };
 
-  getIndeptiveFolder().then(function (folder) {
-    return folder;
-  }).then(function(folder) {
-    var result = [];
-    return createSpreadSheet(folder.id);
-  }).then(function (result) {
-    return moveSpreadSheet(result[1], 'Mon timesheet de ben', result[0]);
-  }).then(function (spreadsheetId) {
-    return enterDataInSpreadSheet(spreadsheetId.id, 'Sheet1!A1:C1', [year,month,day]);
-  });
+    timesheetRef.set(timesheet);
 
-  return {
-    type: types.TIMESHEETS_ADD
+    setApiToken(token);
+
+    enterDataInSpreadSheet(spreadsheetId, 'Days!A2:C2', [year,month,day]);
+    enterDataInSpreadSheet(spreadsheetId, 'Days!E2:E2', [amount]);
+
+    timesheetsRef.child(customerId).once('value').then(function(snapshot) {
+        dispatch(listenChildChanged(metaTypes.timesheets, customerId, snapshot.val()));
+    });
+
   }
-
 }
 
-export function addTimesheet(customerId, year, month, token) {
+export function addTimesheet(customerId, customerName, year, month, token) {
   const timesheetRef = timesheetsRef.child(customerId).child(year).child(month);
 
-  console.log('month');
-  console.log(month);
-  timesheetRef.set({
-    amountOfWork: 0,
-    lastStatus: 'Forecast',
-    workUnit: 'days'
-  })
-
-  const day = 10;
-
   setApiToken(token);
+
 
   getIndeptiveFolder().then(function (folder) {
     return folder;
   }).then(function(folder) {
-    var result = [];
-    return createSpreadSheet(folder.id);
+    var result = copySpreadSheet(folder.id);
+    return result;
   }).then(function (result) {
-    return moveSpreadSheet(result[1], 'Mon timesheet de moi', result[0]);
+    return moveSpreadSheet(result[1], `${year}${month}_${customerName} Timesheet`, result[0]);
   }).then(function (spreadsheetId) {
-    return enterDataInSpreadSheet(spreadsheetId.id, 'Sheet1!A1:C1', [year,month,day]);
+    returnedSpreadsheetId = spreadsheetId.id;
+    return enterDataInSpreadSheet(spreadsheetId.id, 'Timesheets!B14:C14', [month,year]);
+  }).then(function(spreadsheetId) {
+    return timesheetRef.set({
+      spreadsheetId: `${spreadsheetId}`,
+      amountOfWork: 0,
+      lastStatus: 'Forecast',
+      workUnit: 'days'
+    })
   });
 
   return {

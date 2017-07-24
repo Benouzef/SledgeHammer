@@ -19,9 +19,9 @@ class CustomersScreen extends Component {
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
   }
 
-  renderRow(rowData) {
+  renderRow(rowData, sectionID, rowID) {
     return (
-      <TouchableHighlight onPress={() => this.props.navigation.navigate('CustomerDetail', { customerDetail:  rowData })} underlayColor='rgba(0,0,0,0)'>
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('CustomerDetail', { customerDetail:  rowData, id: rowID })} underlayColor='rgba(0,0,0,0)'>
         <View>
           <View style={styles.row}>
 
