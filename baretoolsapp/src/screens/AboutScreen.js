@@ -5,7 +5,7 @@ export default class AboutScreen extends React.Component {
   render() {
     return (
         <WebView
-          source={{uri: 'http://www.indeptive.com'}}
+          source={{uri: 'http://www.skillvalue.com'}}
         />
     );
   }
