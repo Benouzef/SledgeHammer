@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "45295109591-cjrrmovdkc3thc0i81oj3ueabhqph9bi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mcfirebaseapp",
+            "certificate_hash": "a2320bc3882a4634275209a044c825b03f579db6"
+          }
+        },
+        {
           "client_id": "45295109591-nt5ob968mg0vkpsjcee4kf55msslgv7k.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45295109591-nt5ob968mg0vkpsjcee4kf55msslgv7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
