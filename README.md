@@ -1,5 +1,5 @@
 # SledgeHammer
-React Native app for Freelancers (Timesheets and Invoices)
+React Native app for Freelancers (Timesheets and Invoices) => Work in progress...
 
 Usual commands for debug
 
