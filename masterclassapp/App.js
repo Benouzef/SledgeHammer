@@ -21,10 +21,14 @@ const instructions = Platform.select({
 
 export default class App extends Component<{}> {
   render() {
+    console.log('Hello World!');
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Welcome to React Native Master Class with SkillValue !
+        </Text>
+        <Text style={styles.welcome}>
+          Bienvenue à Lille !
         </Text>
         <Text style={styles.instructions}>
           To get started, edit App.js
