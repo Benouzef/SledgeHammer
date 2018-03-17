@@ -7,13 +7,13 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"firebase": "^4.9.0",
-		"react": "16.2.0",
-		"react-native": "0.52.0",
+		"firebase": "^4.11.0",
+		"react": "^16.3.0-alpha.1",
+		"react-native": "^0.54.2",
 		"react-native-google-sign-in": "1.0.16",
 		"react-native-vector-icons": "^4.5.0",
-		"react-navigation": "^1.0.0-beta.27",
-		"react-redux": "^5.0.6",
+		"react-navigation": "^1.5.8",
+		"react-redux": "^5.0.7",
 		"redux": "^3.7.2",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.2.0"
