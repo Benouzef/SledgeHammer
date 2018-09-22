@@ -28,7 +28,7 @@ export default class App extends Component<{}> {
           Welcome to React Native Master Class with SkillValue !
         </Text>
         <Text style={styles.welcome}>
-          Bienvenue à Bordeaux !
+          Bienvenue à Paris le 12/07  On est en finale!
         </Text>
         <Text style={styles.instructions}>
           To get started, edit App.js
