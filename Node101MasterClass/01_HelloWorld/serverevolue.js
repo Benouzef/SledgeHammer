@@ -17,6 +17,17 @@ var server = http.createServer(function(req, res) {
 '     	<p>Hello <strong>Marseille</strong> de la part de SkillValue !</p>'+
 '    </body>'+
 '</html>');
+    } else if (page == '/Paris'){ 
+        res.write('<!DOCTYPE html>'+
+        '<html>'+
+        '    <head>'+
+        '        <meta charset="utf-8" />'+
+        '        <title>Hello Paris !</title>'+
+        '    </head>'+ 
+        '    <body>'+
+        '     	<p>Hello <strong>Paris</strong> de la part de SkillValue !</p>'+
+        '    </body>'+
+        '</html>');
     } else {
         res.write('<!DOCTYPE html>'+
 '<html>'+

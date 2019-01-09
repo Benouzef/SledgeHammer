@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
+// Pense bete : npx react-scripts start
 
 class App extends Component {
   constructor() {
