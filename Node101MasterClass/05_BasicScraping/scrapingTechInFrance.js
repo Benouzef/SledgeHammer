@@ -1,27 +1,35 @@
 let axios = require('axios');
 let cheerio = require('cheerio');
 let documentFaker = require('./documentFaker');
+const fs = require('fs');
+
 let companytoList = [];
+let results = []; 
 let url = 'http://www.techinfrance.fr/membres/pages/20/page/';
 
 mainScraping().then(() =>{
     console.log(companytoList.length);
 
     
-    console.log('coucou');
+    
 }).then(() =>{
-    detailedCompanyInfoScraping();
-});
+    detailedCompanyInfoScraping().then(() =>{
+    console.log(results.length);
+
+    let data = JSON.stringify(results);  
+    fs.writeFileSync('results.json', data); 
+} )}
+);
 
 async function detailedCompanyInfoScraping(){
     for (j = 0; j < companytoList.length; j++){
         console.log('http://www.techinfrance.fr' + companytoList[j]);
-        await getDataForASingleCompany('http://www.techinfrance.fr' + companytoList[j])
-        await sleep(2000);
+        await getDataForASingleCompany('http://www.techinfrance.fr', companytoList[j], j)
+        await sleep(3000);
     } 
 } 
 async function mainScraping() { 
-    for(i = 1; i <= 1; i++){
+    for(i = 1; i <= 2; i++){ // 34 is the max
         console.log(url + i);
         await getDataForCompanies(url + i);
         await sleep(2000);
@@ -55,8 +63,8 @@ async function getDataForCompanies (url) {
     );
 } 
 
-async function getDataForASingleCompany (url) {
-    await axios.get(url)
+async function getDataForASingleCompany (url, company, j) {
+    await axios.get(url + company)
     .then((response) => {
         if(response.status === 200) {
             html = response.data;
@@ -88,6 +96,8 @@ async function getDataForASingleCompany (url) {
               });
             
             result = {
+                j,
+                company,
                 companyUrl,
                 email,
                 address,
@@ -95,6 +105,7 @@ async function getDataForASingleCompany (url) {
                 tel
             } 
             console.log(result);
+            results.push(result);
         }
     }, 
         (error) => console.log(error)
