@@ -13,7 +13,7 @@
   "dependencies": {
     "@expo/ex-navigation": "~2.10.0",
     "@expo/samples": "~1.0.3",
-    "@shoutem/ui": "^0.14.0",
+    "@shoutem/ui": "^2.0.4",
     "expo": "16.0.0",
     "react": "16.0.0-alpha.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-16.0.0.tar.gz",
