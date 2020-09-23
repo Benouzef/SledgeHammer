@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@babel/core": "^7.0.0-beta.38",
 		"@babel/plugin-check-constants": "^7.0.0-beta.38",
-		"react": "^16.3.1",
+		"react": "^16.5.0",
 		"react-native": "^0.55.3",
 		"react-native-vector-icons": "^4.6.0",
 		"react-navigation": "^1.5.11"
