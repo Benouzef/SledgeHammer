@@ -9,9 +9,9 @@
 	"dependencies": {
 		"firebase": "^4.13.1",
 		"react": "^16.3.1",
-		"react-native": "^0.55.3",
+		"react-native": "^0.59.0",
 		"react-native-google-sign-in": "1.0.16",
-		"react-native-vector-icons": "^4.6.0",
+		"react-native-vector-icons": "^6.4.1",
 		"react-navigation": "^1.5.11",
 		"react-redux": "^5.0.7",
 		"redux": "^4.0.0",
