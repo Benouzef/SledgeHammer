@@ -12,7 +12,7 @@
     "react-native": "^0.46.4",
     "react-native-datepicker": "^1.6.0",
     "react-native-google-sign-in": "0.0.14",
-    "react-native-vector-icons": "^4.2.0",
+    "react-native-vector-icons": "^10.3.0",
     "react-native-view-shot": "^1.9.1",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
